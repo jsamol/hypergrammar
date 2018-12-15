@@ -1,17 +1,12 @@
-package pl.edu.agh.gg.model.hypergraph;
+package pl.edu.agh.gg.hypergraph;
 
-import org.w3c.dom.css.RGBColor;
-
-import java.awt.*;
+import pl.edu.agh.gg.data.Point;
+import pl.edu.agh.gg.data.RgbColor;
 
 public class Vertex {
 
-    private static String ID_PREFIX = "vertex-";
-
-    public String id = ID_PREFIX + String.valueOf(hashCode());
-
     private Point geom;
-    private RGBColor color;
+    private RgbColor color;
 
     public Vertex(Point geom) {
         this.geom = geom;
@@ -20,6 +15,22 @@ public class Vertex {
 
     public Vertex(Point geom, RgbColor color) {
         this.geom = geom;
+        this.color = color;
+    }
+
+    public Point getGeom() {
+        return geom;
+    }
+
+    public void setGeom(Point geom) {
+        this.geom = geom;
+    }
+
+    public RgbColor getColor() {
+        return color;
+    }
+
+    public void setColor(RgbColor color) {
         this.color = color;
     }
 }

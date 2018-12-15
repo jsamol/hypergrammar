@@ -1,4 +1,4 @@
-package pl.edu.agh.gg.model.hypergraph;
+package pl.edu.agh.gg.hypergraph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,12 +6,9 @@ import java.util.List;
 
 public class HyperEdge<V extends Vertex> {
 
-    private static String ID_PREFIX = "hyperEdge-";
-
-    public String id = ID_PREFIX + String.valueOf(hashCode());
-
     private HyperEdgeType type;
     private List<V> vertices = new ArrayList<>();
+    private boolean canBreak = false;
 
     public HyperEdge(HyperEdgeType type) {
         this.type = type;
@@ -41,5 +38,21 @@ public class HyperEdge<V extends Vertex> {
 
     public void removeVertex(V vertex) {
         this.vertices.remove(vertex);
+    }
+
+    public HyperEdgeType getType() {
+        return type;
+    }
+
+    public void setType(HyperEdgeType type) {
+        this.type = type;
+    }
+
+    public boolean getCanBreak() {
+        return canBreak;
+    }
+
+    public void setCanBreak(boolean canBreak) {
+        this.canBreak = canBreak;
     }
 }

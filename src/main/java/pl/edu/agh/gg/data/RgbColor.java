@@ -1,6 +1,7 @@
-package pl.edu.agh.gg.model;
+package pl.edu.agh.gg.data;
 
 public class RgbColor {
+
     private int r;
     private int g;
     private int b;
@@ -33,5 +34,10 @@ public class RgbColor {
 
     public void setB(int b) {
         this.b = b;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("R = %d, G = %d, B = %d", r, g, b);
     }
 }

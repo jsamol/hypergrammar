@@ -1,4 +1,4 @@
-package pl.edu.agh.gg.model.hypergraph;
+package pl.edu.agh.gg.hypergraph;
 
 public enum HyperEdgeType {
     BOUNDARY("B"),

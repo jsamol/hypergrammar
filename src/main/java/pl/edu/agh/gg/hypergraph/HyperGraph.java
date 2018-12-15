@@ -1,20 +1,13 @@
-package pl.edu.agh.gg.model.hypergraph;
+package pl.edu.agh.gg.hypergraph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HyperGraph<V extends Vertex, E extends HyperEdge> extends Drawable {
-    private static String ID_PREFIX = "hyperGraph-";
-
-    public String id = String.valueOf(hashCode());
+public class HyperGraph<V extends Vertex, E extends HyperEdge<V>> {
 
     private List<V> vertices = new ArrayList<>();
     private List<E> edges = new ArrayList<>();
-
-    public HyperGraph() {
-        super(ID_PREFIX);
-    }
 
     public List<V> getVertices() {
         return vertices;

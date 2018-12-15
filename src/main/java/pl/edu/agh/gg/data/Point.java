@@ -1,6 +1,7 @@
-package pl.edu.agh.gg.model;
+package pl.edu.agh.gg.data;
 
 public class Point {
+
     private int x;
     private int y;
 
@@ -23,5 +24,10 @@ public class Point {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("geom = (%d, %d)", x, y);
     }
 }
