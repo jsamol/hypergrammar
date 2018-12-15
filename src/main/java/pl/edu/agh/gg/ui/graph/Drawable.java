@@ -1,4 +1,4 @@
-package pl.edu.agh.gg.ui;
+package pl.edu.agh.gg.ui.graph;
 
 import pl.edu.agh.gg.hypergraph.HyperEdge;
 import pl.edu.agh.gg.hypergraph.HyperGraph;

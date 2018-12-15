@@ -1,10 +1,12 @@
 package pl.edu.agh.gg.hypergraph;
 
+import pl.edu.agh.gg.ui.graph.Drawable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HyperGraph<V extends Vertex, E extends HyperEdge<V>> {
+public class HyperGraph<V extends Vertex, E extends HyperEdge<V>> extends Drawable {
 
     private List<V> vertices = new ArrayList<>();
     private List<E> edges = new ArrayList<>();

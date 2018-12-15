@@ -2,8 +2,9 @@ package pl.edu.agh.gg.hypergraph;
 
 import pl.edu.agh.gg.data.Point;
 import pl.edu.agh.gg.data.RgbColor;
+import pl.edu.agh.gg.ui.graph.Drawable;
 
-public class Vertex {
+public class Vertex extends Drawable {
 
     private Point geom;
     private RgbColor color;
