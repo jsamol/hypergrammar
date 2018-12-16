@@ -2,28 +2,27 @@ package pl.edu.agh.gg.hypergraph;
 
 import pl.edu.agh.gg.ui.graph.Drawable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class HyperGraph<V extends Vertex, E extends HyperEdge<V>> extends Drawable {
 
-    private List<V> vertices = new ArrayList<>();
+    private Set<V> vertices = new HashSet<>();
     private List<E> edges = new ArrayList<>();
 
-    public List<V> getVertices() {
+    public Set<V> getVertices() {
         return vertices;
     }
 
-    public void setVertices(List<V> vertices) {
-        this.vertices = vertices;
-    }
-
-    public void addVertex(V... vertices) {
+    private void addVertices(V... vertices) {
         this.vertices.addAll(Arrays.asList(vertices));
     }
 
-    public void removeVertex(V vertex) {
+    private void addVertices(List<V> vertices) {
+        vertices.forEach(v -> System.out.println(v.hashCode()));
+        this.vertices.addAll(vertices);
+    }
+
+    private void removeVertex(V vertex) {
         this.vertices.remove(vertex);
     }
 
@@ -36,10 +35,13 @@ public class HyperGraph<V extends Vertex, E extends HyperEdge<V>> extends Drawab
     }
 
     public void addEdge(E... edges) {
-        this.edges.addAll(Arrays.asList(edges));
+        List<E> edgesList = Arrays.asList(edges);
+        this.edges.addAll(edgesList);
+        edgesList.forEach(edge -> addVertices(edge.getVertices()));
     }
 
     public void removeEdge(E edge) {
         this.edges.remove(edge);
     }
+
 }
