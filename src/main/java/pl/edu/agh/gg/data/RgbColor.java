@@ -1,5 +1,8 @@
 package pl.edu.agh.gg.data;
 
+import java.awt.*;
+import java.util.Objects;
+
 public class RgbColor {
 
     private int r;
@@ -10,6 +13,13 @@ public class RgbColor {
         this.r = r;
         this.g = g;
         this.b = b;
+    }
+
+    public RgbColor(int rgb) {
+        Color color = new Color(rgb);
+        this.r = color.getRed();
+        this.g = color.getGreen();
+        this.b = color.getBlue();
     }
 
     public int getR() {
@@ -39,5 +49,20 @@ public class RgbColor {
     @Override
     public String toString() {
         return String.format("R = %d, G = %d, B = %d", r, g, b);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RgbColor rgbColor = (RgbColor) o;
+        return r == rgbColor.r &&
+                g == rgbColor.g &&
+                b == rgbColor.b;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(r, g, b);
     }
 }

@@ -1,11 +1,16 @@
 package pl.edu.agh.gg;
 
-import pl.edu.agh.gg.data.*;
-import pl.edu.agh.gg.hypergraph.HyperEdge;
+import pl.edu.agh.gg.data.Point;
 import pl.edu.agh.gg.hypergraph.HyperEdgeType;
+import pl.edu.agh.gg.util.BitmapUtils;
+import pl.edu.agh.gg.hypergraph.HyperEdge;
 import pl.edu.agh.gg.hypergraph.HyperGraph;
 import pl.edu.agh.gg.hypergraph.Vertex;
+import pl.edu.agh.gg.production.P1Production;
 import pl.edu.agh.gg.ui.HyperGraphDrawer;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class App {
 
@@ -24,7 +29,6 @@ public class App {
         Vertex v3 = new Vertex(new Point(0, 10));
         Vertex v4 = new Vertex(new Point(10, 10));
 
-        graph.addVertex(v1, v2, v3, v4);
         graph.addEdge(new HyperEdge<>(HyperEdgeType.INTERIOR, v1, v2, v3, v4));
         graph.addEdge(new HyperEdge<>(HyperEdgeType.BOUNDARY, v1, v2));
         graph.addEdge(new HyperEdge<>(HyperEdgeType.BOUNDARY, v1, v3));
@@ -33,5 +37,6 @@ public class App {
 
         HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
         drawer.draw();
+
     }
 }

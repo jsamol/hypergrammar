@@ -18,11 +18,10 @@ public class HyperGraph<V extends Vertex, E extends HyperEdge<V>> extends Drawab
     }
 
     private void addVertices(List<V> vertices) {
-        vertices.forEach(v -> System.out.println(v.hashCode()));
         this.vertices.addAll(vertices);
     }
 
-    private void removeVertex(V vertex) {
+    public void removeVertex(V vertex) {
         this.vertices.remove(vertex);
     }
 

@@ -34,4 +34,12 @@ public class Vertex extends Drawable {
     public void setColor(RgbColor color) {
         this.color = color;
     }
+
+    public int getX() {
+        return geom.getX();
+    }
+
+    public int getY() {
+        return geom.getY();
+    }
 }
