@@ -4,6 +4,7 @@ public class StylesheetProvider {
     public static String STYLESHEET =
             "node {" +
                     "text-alignment: above;" +
+                    "text-background-mode: plain;" +
             "}" +
             "node." + HtmlClass.HYPER_EDGE + "{" +
                     "shape: rounded-box;" +
@@ -14,6 +15,7 @@ public class StylesheetProvider {
                     "fill-color: #fff;" +
                     "stroke-mode: plain;" +
                     "stroke-color: #000;" +
+                    "text-background-mode: none;" +
             "}" +
             "sprite." + HtmlClass.HYPER_EDGE + "{" +
                     "shape: rounded-box;" +
