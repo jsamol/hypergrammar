@@ -19,10 +19,10 @@ import java.util.stream.IntStream;
 
 public class HyperGraphDrawer {
 
-    private HyperGraph<? extends Vertex, ? extends HyperEdge> hyperGraph;
+    private HyperGraph hyperGraph;
     private SingleGraph graph;
 
-    public HyperGraphDrawer(HyperGraph<?, ?> hyperGraph) {
+    public HyperGraphDrawer(HyperGraph hyperGraph) {
         this.hyperGraph = hyperGraph;
         this.graph = new SingleGraph(hyperGraph.id, false, true);
     }
@@ -48,7 +48,7 @@ public class HyperGraphDrawer {
 
     private void drawHyperEdges() {
         SpriteManager spriteManager = new SpriteManager(graph);
-        for (HyperEdge<? extends Vertex> hyperEdge : hyperGraph.getEdges()) {
+        for (HyperEdge hyperEdge : hyperGraph.getEdges()) {
             Node edgeNode = graph.addNode(hyperEdge.id);
             edgeNode.addAttribute(Attribute.CLASS, HtmlClass.HYPER_EDGE);
             edgeNode.addAttribute(Attribute.LABEL, hyperEdge.getType().label);
@@ -69,15 +69,15 @@ public class HyperGraphDrawer {
         }
     }
 
-    private double getHyperNodeX(HyperEdge<? extends Vertex> hyperEdge) {
+    private double getHyperNodeX(HyperEdge hyperEdge) {
         return getHyperNodePositionStream(hyperEdge, vertex -> vertex.getGeom().getX()).average().orElse(0.0);
     }
 
-    private double getHyperNodeY(HyperEdge<? extends Vertex> hyperEdge) {
+    private double getHyperNodeY(HyperEdge hyperEdge) {
         return getHyperNodePositionStream(hyperEdge, vertex -> vertex.getGeom().getY()).average().orElse(0.0);
     }
 
-    private IntStream getHyperNodePositionStream(HyperEdge<? extends Vertex> hyperEdge, ToIntFunction<Vertex> mapPositon) {
+    private IntStream getHyperNodePositionStream(HyperEdge hyperEdge, ToIntFunction<Vertex> mapPositon) {
         return hyperEdge.getVertices()
                 .stream()
                 .mapToInt(mapPositon);

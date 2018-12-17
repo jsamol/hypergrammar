@@ -44,18 +44,18 @@ public class P1Production implements Production {
     }
 
     @Override
-    public void apply(HyperGraph<Vertex, HyperEdge<Vertex>> graph) {
+    public void apply(HyperGraph graph) {
         Vertex vertex1 = new Vertex(new Point(x1, y2), point1Color);
         Vertex vertex2 = new Vertex(new Point(x2, y2), point2Color);
         Vertex vertex3 = new Vertex(new Point(x1, y1), point3Color);
         Vertex vertex4 = new Vertex(new Point(x2, y1), point4Color);
 
-        HyperEdge<Vertex> edgeBetween1And2 = new HyperEdge<>(HyperEdgeType.BOUNDARY, vertex1, vertex2);
-        HyperEdge<Vertex> edgeBetween2And4 = new HyperEdge<>(HyperEdgeType.BOUNDARY, vertex2, vertex4);
-        HyperEdge<Vertex> edgeBetween1And3 = new HyperEdge<>(HyperEdgeType.BOUNDARY, vertex1, vertex3);
-        HyperEdge<Vertex> edgeBetween3And4 = new HyperEdge<>(HyperEdgeType.BOUNDARY, vertex3, vertex4);
+        HyperEdge edgeBetween1And2 = new HyperEdge(HyperEdgeType.BOUNDARY, vertex1, vertex2);
+        HyperEdge edgeBetween2And4 = new HyperEdge(HyperEdgeType.BOUNDARY, vertex2, vertex4);
+        HyperEdge edgeBetween1And3 = new HyperEdge(HyperEdgeType.BOUNDARY, vertex1, vertex3);
+        HyperEdge edgeBetween3And4 = new HyperEdge(HyperEdgeType.BOUNDARY, vertex3, vertex4);
 
-        HyperEdge<Vertex> interiorEdge = new HyperEdge<>(HyperEdgeType.INTERIOR, vertex1, vertex2, vertex3, vertex4);
+        HyperEdge interiorEdge = new HyperEdge(HyperEdgeType.INTERIOR, vertex1, vertex2, vertex3, vertex4);
         interiorEdge.setCanBreak(false);
 
         graph.addEdge(edgeBetween1And2, edgeBetween1And3, edgeBetween2And4, edgeBetween3And4, interiorEdge);

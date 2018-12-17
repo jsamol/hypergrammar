@@ -6,39 +6,39 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HyperEdge<V extends Vertex> extends Drawable {
+public class HyperEdge extends Drawable {
 
     private HyperEdgeType type;
-    private List<V> vertices = new ArrayList<>();
+    private List<Vertex> vertices = new ArrayList<>();
     private boolean canBreak = false;
 
     public HyperEdge(HyperEdgeType type) {
         this.type = type;
     }
 
-    public HyperEdge(HyperEdgeType type, List<V> vertices) {
+    public HyperEdge(HyperEdgeType type, List<Vertex> vertices) {
         this.vertices = vertices;
         this.type = type;
     }
 
-    public HyperEdge(HyperEdgeType type, V... vertices) {
+    public HyperEdge(HyperEdgeType type, Vertex... vertices) {
         this.vertices = Arrays.asList(vertices);
         this.type = type;
     }
 
-    public List<V> getVertices() {
+    public List<Vertex> getVertices() {
         return vertices;
     }
 
-    public void setVertices(List<V> vertices) {
+    public void setVertices(List<Vertex> vertices) {
         this.vertices = vertices;
     }
 
-    public void addVertex(V vertex) {
+    public void addVertex(Vertex vertex) {
         this.vertices.add(vertex);
     }
 
-    public void removeVertex(V vertex) {
+    public void removeVertex(Vertex vertex) {
         this.vertices.remove(vertex);
     }
 

@@ -1,8 +1,6 @@
 package pl.edu.agh.gg.demo.production1;
 
-import pl.edu.agh.gg.hypergraph.HyperEdge;
 import pl.edu.agh.gg.hypergraph.HyperGraph;
-import pl.edu.agh.gg.hypergraph.Vertex;
 import pl.edu.agh.gg.production.P1Production;
 import pl.edu.agh.gg.ui.HyperGraphDrawer;
 import pl.edu.agh.gg.util.BitmapUtils;
@@ -18,7 +16,7 @@ public class Production1Demo {
     }
 
     private void run() throws IOException {
-        HyperGraph<Vertex, HyperEdge<Vertex>> graph = new HyperGraph<>();
+        HyperGraph graph = new HyperGraph();
         BufferedImage image = BitmapUtils.loadBitmapFromResource("production1/bitmap.bmp");
 
         P1Production production = new P1Production(image);

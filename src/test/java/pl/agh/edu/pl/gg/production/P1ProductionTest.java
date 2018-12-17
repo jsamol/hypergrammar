@@ -22,14 +22,14 @@ public class P1ProductionTest {
     private static final String BITMAP_FILE = "production1/bitmap.bmp";
 
     private BufferedImage bitmap;
-    private HyperGraph<Vertex, HyperEdge<Vertex>> graph;
+    private HyperGraph graph;
     private P1Production p1Production;
 
     @Before
     public void before() throws IOException {
         bitmap = BitmapUtils.loadBitmapFromResource(BITMAP_FILE);
 
-        graph = new HyperGraph<>();
+        graph = new HyperGraph();
         p1Production = new P1Production(bitmap);
     }
 
@@ -69,13 +69,13 @@ public class P1ProductionTest {
     }
 
     private void verifyInteriorEdge() {
-        HyperEdge<Vertex> interiorEdge = graph.getEdges().stream().filter(edge -> edge.getType().equals(HyperEdgeType.INTERIOR)).findFirst().orElseThrow(IllegalStateException::new);
+        HyperEdge interiorEdge = graph.getEdges().stream().filter(edge -> edge.getType().equals(HyperEdgeType.INTERIOR)).findFirst().orElseThrow(IllegalStateException::new);
         Assert.assertEquals(4, interiorEdge.getVertices().size());
         graph.getVertices().forEach(vertex -> Assert.assertTrue(interiorEdge.getVertices().contains(vertex)));
     }
 
     private void verifyBoundaryEdges() {
-        Set<HyperEdge<Vertex>> borderEdges = graph.getEdges().stream().filter(edge -> edge.getType().equals(HyperEdgeType.BOUNDARY)).collect(Collectors.toSet());
+        Set<HyperEdge> borderEdges = graph.getEdges().stream().filter(edge -> edge.getType().equals(HyperEdgeType.BOUNDARY)).collect(Collectors.toSet());
         borderEdges.forEach(borderEdge -> Assert.assertEquals(2, borderEdge.getVertices().size()));
 
         Vertex vertex1 = VertexUtil.findMinXMaxY(graph.getVertices()).orElseThrow(IllegalStateException::new);
@@ -89,7 +89,7 @@ public class P1ProductionTest {
         assertThereIsEdgeBetween(vertex3, vertex4, borderEdges);
     }
 
-    private void assertThereIsEdgeBetween(Vertex vertex1, Vertex vertex2, Set<HyperEdge<Vertex>> edges) {
+    private void assertThereIsEdgeBetween(Vertex vertex1, Vertex vertex2, Set<HyperEdge> edges) {
         Assert.assertTrue(edges.stream()
                                .map(HyperEdge::getVertices)
                                .anyMatch(vertices -> vertices.contains(vertex1) && vertices.contains(vertex2)));
