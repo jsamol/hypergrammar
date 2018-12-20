@@ -11,6 +11,7 @@ public class HyperEdge extends Drawable {
     private HyperEdgeType type;
     private List<Vertex> vertices = new ArrayList<>();
     private boolean canBreak = false;
+    private HyperEdgeDirection dir;
 
     public HyperEdge(HyperEdgeType type) {
         this.type = type;
