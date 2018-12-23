@@ -2,7 +2,8 @@ package pl.edu.agh.gg.hypergraph;
 
 public enum HyperEdgeType {
     BOUNDARY("B"),
-    INTERIOR("I");
+    INTERIOR("I"),
+    FACE("F");
 
     public String label;
 

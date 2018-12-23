@@ -11,6 +11,7 @@ public class HyperEdge extends Drawable {
     private HyperEdgeType type;
     private List<Vertex> vertices = new ArrayList<>();
     private boolean canBreak = false;
+    private HyperEdgeDirection dir;
 
     public HyperEdge(HyperEdgeType type) {
         this.type = type;
@@ -56,5 +57,13 @@ public class HyperEdge extends Drawable {
 
     public void setCanBreak(boolean canBreak) {
         this.canBreak = canBreak;
+    }
+
+    public HyperEdgeDirection getDir() {
+        return dir;
+    }
+
+    public void setDir(HyperEdgeDirection dir) {
+        this.dir = dir;
     }
 }
