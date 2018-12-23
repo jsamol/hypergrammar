@@ -58,4 +58,12 @@ public class HyperEdge extends Drawable {
     public void setCanBreak(boolean canBreak) {
         this.canBreak = canBreak;
     }
+
+    public HyperEdgeDirection getDir() {
+        return dir;
+    }
+
+    public void setDir(HyperEdgeDirection dir) {
+        this.dir = dir;
+    }
 }
