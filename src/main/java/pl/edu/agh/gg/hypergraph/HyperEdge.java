@@ -2,9 +2,7 @@ package pl.edu.agh.gg.hypergraph;
 
 import pl.edu.agh.gg.ui.graph.Drawable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class HyperEdge extends Drawable {
 
@@ -25,6 +23,12 @@ public class HyperEdge extends Drawable {
     public HyperEdge(HyperEdgeType type, Vertex... vertices) {
         this.vertices = Arrays.asList(vertices);
         this.type = type;
+    }
+
+    public HyperEdge(HyperEdgeDirection dir, Vertex vertex) {
+        this.vertices = Collections.singletonList(vertex);
+        this.type = HyperEdgeType.FACE;
+        this.dir = dir;
     }
 
     public List<Vertex> getVertices() {

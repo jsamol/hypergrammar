@@ -7,18 +7,15 @@ import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Camera;
 import org.graphstream.ui.view.Viewer;
-import pl.edu.agh.gg.hypergraph.HyperEdge;
-import pl.edu.agh.gg.hypergraph.HyperEdgeType;
-import pl.edu.agh.gg.hypergraph.HyperGraph;
-import pl.edu.agh.gg.hypergraph.Vertex;
+import pl.edu.agh.gg.hypergraph.*;
 import pl.edu.agh.gg.ui.graph.Attribute;
 import pl.edu.agh.gg.ui.graph.HtmlClass;
 import pl.edu.agh.gg.ui.graph.StylesheetProvider;
+import pl.edu.agh.gg.util.VertexUtil;
 
-import java.util.IntSummaryStatistics;
 import java.util.function.ToIntFunction;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
+import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.*;
 
 public class HyperGraphDrawer {
 
@@ -30,6 +27,9 @@ public class HyperGraphDrawer {
     // percent of the graph that should be visible on start
     private double viewPercent;
 
+    private int maxX;
+    private int maxY;
+
     public HyperGraphDrawer(HyperGraph hyperGraph) {
         this(hyperGraph, DEFAULT_VIEW_PERCENT);
     }
@@ -38,6 +38,10 @@ public class HyperGraphDrawer {
         this.hyperGraph = hyperGraph;
         this.graph = new SingleGraph(hyperGraph.id, false, true);
         this.viewPercent = viewPercent;
+
+        Vertex maxXMaxY = VertexUtil.findMaxXMaxY(hyperGraph.getVertices()).orElseThrow(IllegalStateException::new);
+        this.maxX = maxXMaxY.getX();
+        this.maxY = maxXMaxY.getY();
     }
 
     public void draw() {
@@ -76,8 +80,30 @@ public class HyperGraphDrawer {
                 sprite.addAttribute(Attribute.LABEL, "break = " + (hyperEdge.getCanBreak() ? 1 : 0));
             }
 
-            edgeNode.addAttribute(Attribute.X, getHyperNodeX(hyperEdge));
-            edgeNode.addAttribute(Attribute.Y, getHyperNodeY(hyperEdge));
+            if (hyperEdge.getType() == HyperEdgeType.FACE) {
+                HyperEdgeDirection dir = hyperEdge.getDir();
+                double x = getHyperNodeX(hyperEdge);
+                double y = getHyperNodeY(hyperEdge);
+                double deltaX = this.maxX / 10.;
+                double deltaY = this.maxY / 10.;
+
+                if (dir == UP) {
+                    y += deltaY;
+                } else if (dir == RIGHT) {
+                    x += deltaX;
+                } else if (dir == DOWN) {
+                    y -= deltaY;
+                } else if (dir == LEFT) {
+                    x -= deltaX;
+                }
+
+                edgeNode.addAttribute(Attribute.X, x);
+                edgeNode.addAttribute(Attribute.Y, y);
+                edgeNode.addAttribute(Attribute.LABEL, hyperEdge.getType().label + hyperEdge.getDir().name());
+            } else {
+                edgeNode.addAttribute(Attribute.X, getHyperNodeX(hyperEdge));
+                edgeNode.addAttribute(Attribute.Y, getHyperNodeY(hyperEdge));
+            }
 
             hyperEdge.getVertices().forEach(vertex -> graph.addEdge(vertex.id + "-" + hyperEdge.id, vertex.id, hyperEdge.id));
         });
