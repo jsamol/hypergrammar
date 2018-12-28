@@ -80,7 +80,7 @@ public class HyperGraphDrawer {
                 sprite.addAttribute(Attribute.LABEL, "break = " + (hyperEdge.getCanBreak() ? 1 : 0));
             }
 
-            if (hyperEdge.getType() == HyperEdgeType.FACE) {
+            if (hyperEdge.getType() == HyperEdgeType.FACE && hyperEdge.getVertices().size() == 1) {
                 HyperEdgeDirection dir = hyperEdge.getDir();
                 double x = getHyperNodeX(hyperEdge);
                 double y = getHyperNodeY(hyperEdge);
