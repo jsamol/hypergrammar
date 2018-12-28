@@ -101,6 +101,9 @@ public class P2ProductionTest {
         Vertex v = faceEdges.stream().findFirst().orElseThrow(IllegalStateException::new)
                 .getVertices().stream().findFirst().orElseThrow(IllegalStateException::new);
 
+        Assert.assertEquals(bitmap.getWidth() / 2 - 1, v.getX());
+        Assert.assertEquals(bitmap.getHeight() / 2 - 1, v.getY());
+
         faceEdges.forEach(edge -> {
             Assert.assertEquals(1, edge.getVertices().size());
             edge.getVertices().forEach(node -> {
