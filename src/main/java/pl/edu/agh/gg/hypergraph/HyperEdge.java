@@ -21,12 +21,18 @@ public class HyperEdge extends Drawable {
     }
 
     public HyperEdge(HyperEdgeType type, Vertex... vertices) {
-        this.vertices = Arrays.asList(vertices);
+        this.vertices.addAll(Arrays.asList(vertices));
         this.type = type;
     }
 
     public HyperEdge(HyperEdgeDirection dir, Vertex vertex) {
         this.vertices = Collections.singletonList(vertex);
+        this.type = HyperEdgeType.FACE;
+        this.dir = dir;
+    }
+
+    public HyperEdge(HyperEdgeDirection dir, Vertex... vertices) {
+        this.vertices.addAll(Arrays.asList(vertices));
         this.type = HyperEdgeType.FACE;
         this.dir = dir;
     }
@@ -69,6 +75,17 @@ public class HyperEdge extends Drawable {
 
     public void setDir(HyperEdgeDirection dir) {
         this.dir = dir;
+    }
+
+    public boolean isEdgeInclude(int x1, int y1) {
+        Boolean v1 = this.vertices.stream().anyMatch( v -> v.getGeom().isEqual(x1 ,y1));
+        return v1;
+    }
+
+    public boolean isEdgeBetween(int x1, int x2, int y1, int y2) {
+        Boolean v1 = this.vertices.stream().anyMatch( v -> v.getGeom().isEqual(x1 ,y1));
+        Boolean v2 = this.vertices.stream().anyMatch( v -> v.getGeom().isEqual(x2 ,y2));
+        return v1 && v2;
     }
 
     public double getSideLength() {

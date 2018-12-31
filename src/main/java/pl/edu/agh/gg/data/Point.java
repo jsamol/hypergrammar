@@ -26,6 +26,10 @@ public class Point {
         this.y = y;
     }
 
+    public boolean isEqual(int x, int y) {
+        return this.x == x && this.y == y;
+    }
+
     @Override
     public String toString() {
         return String.format("geom = (%d, %d)", x, y);
