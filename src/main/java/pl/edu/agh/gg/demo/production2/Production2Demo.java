@@ -12,8 +12,6 @@ import pl.edu.agh.gg.util.BitmapUtils;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Production2Demo {
 
