@@ -4,10 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.gg.data.RgbColor;
-import pl.edu.agh.gg.hypergraph.HyperEdge;
-import pl.edu.agh.gg.hypergraph.HyperEdgeType;
-import pl.edu.agh.gg.hypergraph.HyperGraph;
-import pl.edu.agh.gg.hypergraph.Vertex;
+import pl.edu.agh.gg.hypergraph.*;
 import pl.edu.agh.gg.production.P1Production;
 import pl.edu.agh.gg.production.P2Production;
 import pl.edu.agh.gg.production.P5Production;
@@ -90,6 +87,9 @@ public class P2ProductionTest {
             Assert.assertEquals(2, edge.getVertices().size());
             edge.getVertices().forEach(node -> Assert.assertTrue(graph.getVertices().contains(node)));
         });
+
+        Set<Vertex> v = interiorEdges.stream().flatMap(edge -> edge.getVertices().stream()).collect(Collectors.toSet());
+        Assert.assertEquals(5, v.size());
     }
 
     private void verifyFaceEdges() {
@@ -111,6 +111,9 @@ public class P2ProductionTest {
                 Assert.assertTrue(graph.getVertices().contains(node));
             });
         });
+
+        Set<HyperEdgeDirection> directions = faceEdges.stream().map(HyperEdge::getDir).collect(Collectors.toSet());
+        Assert.assertEquals(4, directions.size());
     }
 
     private void verifyBoundaryEdges() {
