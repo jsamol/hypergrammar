@@ -19,6 +19,11 @@ public class Vertex extends Drawable {
         this.color = color;
     }
 
+    public Vertex(int x, int y) {
+        this.geom = new Point(x, y);
+        this.color = new RgbColor(0, 0, 0);
+    }
+
     public Point getGeom() {
         return geom;
     }
