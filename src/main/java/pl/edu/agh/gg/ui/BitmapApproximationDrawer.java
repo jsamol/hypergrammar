@@ -57,7 +57,7 @@ public class BitmapApproximationDrawer {
         }
     }
 
-    private static void saveImage(int x1, int y1, int x2, int y2, BitmapApproximationRGB bitmapApproximationRGB,
+    public static void saveImage(int x1, int y1, int x2, int y2, BitmapApproximationRGB bitmapApproximationRGB,
                                   final String name) {
         int[][] approx_r = bitmapApproximationRGB.getApprox_r();
         int[][] approx_g = bitmapApproximationRGB.getApprox_g();
