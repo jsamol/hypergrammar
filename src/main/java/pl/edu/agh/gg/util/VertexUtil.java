@@ -45,11 +45,11 @@ public class VertexUtil {
                        .findFirst();
     }
 
-    private static List<Integer> mapToXCord(Set<Vertex> vertices) {
+    public static List<Integer> mapToXCord(Set<Vertex> vertices) {
         return vertices.stream().map(Vertex::getX).collect(Collectors.toList());
     }
 
-    private static List<Integer> mapToYCord(Set<Vertex> vertices) {
+    public static List<Integer> mapToYCord(Set<Vertex> vertices) {
         return vertices.stream().map(Vertex::getY).collect(Collectors.toList());
     }
 }

@@ -12,12 +12,12 @@ public class EdgeUtil {
         throw new UnsupportedOperationException();
     }
 
-    public static int getSquareEdgeArea(Vertex minXMinY, Vertex maxXMaxY) {
-        if (minXMinY.getX() > maxXMaxY.getX() || minXMinY.getY() > maxXMaxY.getY()){
+    public static int getSquareEdgeArea(int minX, int minY, int maxX, int maxY) {
+        if (minX > maxX || minY > maxY){
             throw new UnsupportedOperationException();
         }
-        int xSize = maxXMaxY.getX() - minXMinY.getX();
-        int ySize = maxXMaxY.getY() - minXMinY.getY();
+        int xSize = maxX - minX;
+        int ySize = maxY - minY;
         return xSize * ySize;
     }
 
