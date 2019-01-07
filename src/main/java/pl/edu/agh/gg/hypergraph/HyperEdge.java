@@ -31,8 +31,23 @@ public class HyperEdge extends Drawable {
         this.dir = dir;
     }
 
+    public HyperEdge(HyperEdgeDirection dir, Vertex... vertices) {
+        this.vertices = Arrays.asList(vertices);
+        this.type = HyperEdgeType.FACE;
+        this.dir = dir;
+    }
+
     public List<Vertex> getVertices() {
         return vertices;
+    }
+
+    public boolean edgeContains(int x1, int y1) {
+        return this.vertices.stream().anyMatch(v -> v.getGeom().getX() == x1 && v.getGeom().getY() == y1);
+    }
+
+    public boolean isEdgeBetween(int x1, int x2, int y1, int y2) {
+        return this.vertices.stream().anyMatch(v -> v.getGeom().getX() == x1 && v.getGeom().getY() == y1)
+                && this.vertices.stream().anyMatch(v -> v.getGeom().getX() == x2 && v.getGeom().getY() == y2);
     }
 
     public void setVertices(List<Vertex> vertices) {
