@@ -19,11 +19,8 @@ public class GraphBitmapApproximationDrawer {
         int x2 = VertexUtil.findMaxXMaxY(graph.getVertices()).get().getX();
         int y2 = VertexUtil.findMaxXMaxY(graph.getVertices()).get().getY();
 
-        int xSize = x2 - x1 + 1;
-        int ySize = y2 - y1 + 1;
-
-        BitmapApproximationRGB bitmapApproximationRGB = new BitmapApproximationRGB(new int[xSize][ySize],
-                new int[xSize][ySize], new int[xSize][ySize]);
+        BitmapApproximationRGB bitmapApproximationRGB = new BitmapApproximationRGB(new int[x2 + 1][y2 + 1],
+                new int[x2 + 1][y2 + 1], new int[x2 + 1][y2 + 1]);
 
 
         graph.getEdges().sort(new HyperEdgeSizeComparator());
@@ -48,7 +45,7 @@ public class GraphBitmapApproximationDrawer {
         RgbColor minXmaxYColor = VertexUtil.findMinXMaxY(vertexHashSet).get().getColor();
 
         BitmapApproximationDrawer.updateBitMapColors(minXY.getX(), minXY.getY(), maxXY.getX(), maxXY.getY(),
-               minXmaxYColor, maxXY.getColor(), minXY.getColor(), maxXminYColor, bitmapApproximationRGB);
+                minXmaxYColor, maxXY.getColor(), minXY.getColor(), maxXminYColor, bitmapApproximationRGB);
     }
 
     private static void handle3VerticesGiven(BitmapApproximationRGB bitmapApproximationRGB, HashSet<Vertex> vertexHashSet) {
@@ -57,26 +54,26 @@ public class GraphBitmapApproximationDrawer {
         Optional<Vertex> maxXminY = VertexUtil.findMaxXMinY(vertexHashSet);
         Optional<Vertex> minXmaxY = VertexUtil.findMinXMaxY(vertexHashSet);
 
-        if(!minXY.isPresent()){
+        if (!minXY.isPresent()) {
             int x = Collections.min(VertexUtil.mapToXCord(vertexHashSet));
             int y = Collections.min(VertexUtil.mapToYCord(vertexHashSet));
             minXY = Optional.of(new Vertex(new Point(x, y)));
             evaluateColor(bitmapApproximationRGB, minXY, x, y);
         }
-        if(!maxXY.isPresent()){
+        if (!maxXY.isPresent()) {
             int x = Collections.max(VertexUtil.mapToXCord(vertexHashSet));
             int y = Collections.max(VertexUtil.mapToYCord(vertexHashSet));
-            maxXY = Optional.of(new Vertex(new Point(x,y)));
+            maxXY = Optional.of(new Vertex(new Point(x, y)));
             evaluateColor(bitmapApproximationRGB, maxXY, x, y);
         }
-        if(!maxXminY.isPresent()){
+        if (!maxXminY.isPresent()) {
             int x = Collections.max(VertexUtil.mapToXCord(vertexHashSet));
             int y = Collections.min(VertexUtil.mapToYCord(vertexHashSet));
             maxXminY = Optional.of(new Vertex(new Point(Collections.max(VertexUtil.mapToXCord(vertexHashSet)),
                     Collections.min(VertexUtil.mapToYCord(vertexHashSet)))));
             evaluateColor(bitmapApproximationRGB, maxXminY, x, y);
         }
-        if(!minXmaxY.isPresent()){
+        if (!minXmaxY.isPresent()) {
             int x = Collections.min(VertexUtil.mapToXCord(vertexHashSet));
             int y = Collections.max(VertexUtil.mapToYCord(vertexHashSet));
             minXmaxY = Optional.of(new Vertex(new Point(Collections.min(VertexUtil.mapToXCord(vertexHashSet)),
