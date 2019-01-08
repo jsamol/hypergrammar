@@ -43,7 +43,7 @@ public class Demo18 {
     private void runManuallyCreatedGraph() {
         HyperGraph graph = createHyperGraph();
         HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-//        drawer.draw();
+        drawer.draw();
         GraphBitmapApproximationDrawer.drawGraphBitmap(graph, "graphApprox.bmp");
     }
 
@@ -62,6 +62,49 @@ public class Demo18 {
         addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(createVertex(100, 0, RED), createVertex(200, 0, RED), createVertex(100, 100, RED), createVertex(200, 100, RED)));
         addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(createVertex(200, 0, RED), createVertex(300, 0, RED), createVertex(200, 100, RED), createVertex(300, 100, RED)));
         addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(createVertex(300, 0, RED), createVertex(400, 0, RED), createVertex(300, 100, RED), createVertex(400, 100, RED)));
+
+        //horizontally from bottom and from left
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(0, 0, RED), createVertex(100, 0, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(100, 0, RED), createVertex(200, 0, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(200, 0, RED), createVertex(300, 0, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(300, 0, RED), createVertex(400, 0, RED)));
+
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(0, 100, RED), createVertex(100, 100, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(100, 100, RED), createVertex(200, 100, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(200, 100, RED), createVertex(300, 100, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(300, 100, RED), createVertex(400, 100, RED)));
+
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(0, 200, RED), createVertex(200, 200, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(200, 200, RED), createVertex(300, 200, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(300, 200, RED), createVertex(400, 200, RED)));
+
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(300, 300, RED), createVertex(400, 300, RED)));
+
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(0, 400, RED), createVertex(200, 400, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(200, 400, RED), createVertex(300, 400, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(300, 400, RED), createVertex(400, 400, RED)));
+
+        //vertically from bottom and from left
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(0, 0, RED), createVertex(0, 100, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(0, 100, RED), createVertex(0, 200, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(0, 200, RED), createVertex(0, 400, RED)));
+
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(100, 0, RED), createVertex(100, 100, RED)));
+
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(200, 0, RED), createVertex(200, 100, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(200, 100, RED), createVertex(200, 200, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(200, 200, RED), createVertex(200, 400, RED)));
+
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(300, 0, RED), createVertex(300, 100, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(300, 100, RED), createVertex(300, 200, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(300, 200, RED), createVertex(300, 300, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(300, 300, RED), createVertex(300, 400, RED)));
+
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(400, 0, RED), createVertex(400, 100, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(400, 100, RED), createVertex(400, 200, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(400, 200, RED), createVertex(400, 300, RED)));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(createVertex(400, 300, RED), createVertex(400, 400, RED)));
+
         return graph;
     }
 
