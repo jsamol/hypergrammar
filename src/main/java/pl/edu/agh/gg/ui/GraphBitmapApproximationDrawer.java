@@ -10,6 +10,9 @@ import pl.edu.agh.gg.util.EdgeUtil;
 import pl.edu.agh.gg.util.VertexUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static pl.edu.agh.gg.hypergraph.HyperEdgeType.INTERIOR;
 
 public class GraphBitmapApproximationDrawer {
 
@@ -25,7 +28,7 @@ public class GraphBitmapApproximationDrawer {
 
         graph.getEdges().sort(new HyperEdgeSizeComparator());
 
-        for (HyperEdge hyperEdge : graph.getEdges()) {
+        for (HyperEdge hyperEdge : graph.getEdges().stream().filter(hyperEdge -> hyperEdge.getType().equals(INTERIOR)).collect(Collectors.toSet())) {
             HashSet<Vertex> vertexHashSet = new HashSet<>(hyperEdge.getVertices());
             if (hyperEdge.getVertices().size() == 4) {
                 handle4VerticesGiven(bitmapApproximationRGB, vertexHashSet);

@@ -38,27 +38,30 @@ public class BitmapApproximationDrawer {
                 double xFactor = (double) (px - x1) / (double) (x2 - x1);
                 double yFactor = (double) (py - y1) / (double) (y2 - y1);
 
-                approx_R[px][py] += rgb1.getR() * (1 - xFactor) * yFactor;
-                approx_G[px][py] += rgb1.getG() * (1 - xFactor) * yFactor;
-                approx_B[px][py] += rgb1.getB() * (1 - xFactor) * yFactor;
+                if ((px != x2 && py != y2 && px != x1 && py != y1) || (approx_R[px][py] == 0 && approx_G[px][py] == 0 && approx_B[px][py] == 0)) {
 
-                approx_R[px][py] += rgb2.getR() * xFactor * yFactor;
-                approx_G[px][py] += rgb2.getG() * xFactor * yFactor;
-                approx_B[px][py] += rgb2.getB() * xFactor * yFactor;
+                    approx_R[px][py] += rgb1.getR() * (1 - xFactor) * yFactor;
+                    approx_G[px][py] += rgb1.getG() * (1 - xFactor) * yFactor;
+                    approx_B[px][py] += rgb1.getB() * (1 - xFactor) * yFactor;
 
-                approx_R[px][py] += rgb3.getR() * (1 - xFactor) * (1 - yFactor);
-                approx_G[px][py] += rgb3.getG() * (1 - xFactor) * (1 - yFactor);
-                approx_B[px][py] += rgb3.getB() * (1 - xFactor) * (1 - yFactor);
+                    approx_R[px][py] += rgb2.getR() * xFactor * yFactor;
+                    approx_G[px][py] += rgb2.getG() * xFactor * yFactor;
+                    approx_B[px][py] += rgb2.getB() * xFactor * yFactor;
 
-                approx_R[px][py] += rgb4.getR() * xFactor * (1 - yFactor);
-                approx_G[px][py] += rgb4.getG() * xFactor * (1 - yFactor);
-                approx_B[px][py] += rgb4.getB() * xFactor * (1 - yFactor);
+                    approx_R[px][py] += rgb3.getR() * (1 - xFactor) * (1 - yFactor);
+                    approx_G[px][py] += rgb3.getG() * (1 - xFactor) * (1 - yFactor);
+                    approx_B[px][py] += rgb3.getB() * (1 - xFactor) * (1 - yFactor);
+
+                    approx_R[px][py] += rgb4.getR() * xFactor * (1 - yFactor);
+                    approx_G[px][py] += rgb4.getG() * xFactor * (1 - yFactor);
+                    approx_B[px][py] += rgb4.getB() * xFactor * (1 - yFactor);
+                }
             }
         }
     }
 
     public static void saveImage(int x1, int y1, int x2, int y2, BitmapApproximationRGB bitmapApproximationRGB,
-                                  final String name) {
+                                 final String name) {
         int[][] approx_r = bitmapApproximationRGB.getApprox_r();
         int[][] approx_g = bitmapApproximationRGB.getApprox_g();
         int[][] approx_b = bitmapApproximationRGB.getApprox_b();
