@@ -70,4 +70,27 @@ public class HyperEdge extends Drawable {
     public void setDir(HyperEdgeDirection dir) {
         this.dir = dir;
     }
+
+    public double getSideLength() {
+        if (this.vertices.size() < 2) {
+            System.err.println("side length exists only 2 or more vertices");
+            return 0.0;
+        }
+
+        Set<Vertex> vertices = new HashSet<>(this.vertices);
+        Vertex v1 = vertices.stream().findAny().get();
+        vertices.remove(v1);
+        Vertex v2 = vertices.stream().findAny().get();
+        if (v1.getY() != v2.getY()) return Math.abs(v1.getY() - v2.getY());
+        if (v1.getX() != v2.getX()) return Math.abs(v1.getX() - v2.getX());
+
+        System.err.println("cannot calculate side length");
+        return 0.0;
+    }
+
+    public Set<Vertex> findCommonVertices(HyperEdge other) {
+        Set<Vertex> commonVertices = new HashSet<>(this.vertices);
+        commonVertices.retainAll(other.vertices);
+        return commonVertices;
+    }
 }
