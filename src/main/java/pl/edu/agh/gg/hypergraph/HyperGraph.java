@@ -13,6 +13,10 @@ public class HyperGraph extends Drawable {
         return vertices;
     }
 
+    public void addVertex(Vertex vertex) {
+        this.vertices.add(vertex);
+    }
+
     private void addVertices(Vertex... vertices) {
         this.vertices.addAll(Arrays.asList(vertices));
     }

@@ -21,7 +21,7 @@ public class HyperEdge extends Drawable {
     }
 
     public HyperEdge(HyperEdgeType type, Vertex... vertices) {
-        this.vertices = Arrays.asList(vertices);
+        this.vertices.addAll(Arrays.asList(vertices));
         this.type = type;
     }
 
@@ -84,5 +84,39 @@ public class HyperEdge extends Drawable {
 
     public void setDir(HyperEdgeDirection dir) {
         this.dir = dir;
+    }
+
+    public boolean isEdgeInclude(int x1, int y1) {
+        Boolean v1 = this.vertices.stream().anyMatch( v -> v.getGeom().isEqual(x1 ,y1));
+        return v1;
+    }
+
+    public boolean isEdgeBetween(int x1, int x2, int y1, int y2) {
+        Boolean v1 = this.vertices.stream().anyMatch( v -> v.getGeom().isEqual(x1 ,y1));
+        Boolean v2 = this.vertices.stream().anyMatch( v -> v.getGeom().isEqual(x2 ,y2));
+        return v1 && v2;
+    }
+
+    public double getSideLength() {
+        if (this.vertices.size() < 2) {
+            System.err.println("side length exists only 2 or more vertices");
+            return 0.0;
+        }
+
+        Set<Vertex> vertices = new HashSet<>(this.vertices);
+        Vertex v1 = vertices.stream().findAny().get();
+        vertices.remove(v1);
+        Vertex v2 = vertices.stream().findAny().get();
+        if (v1.getY() != v2.getY()) return Math.abs(v1.getY() - v2.getY());
+        if (v1.getX() != v2.getX()) return Math.abs(v1.getX() - v2.getX());
+
+        System.err.println("cannot calculate side length");
+        return 0.0;
+    }
+
+    public Set<Vertex> findCommonVertices(HyperEdge other) {
+        Set<Vertex> commonVertices = new HashSet<>(this.vertices);
+        commonVertices.retainAll(other.vertices);
+        return commonVertices;
     }
 }
