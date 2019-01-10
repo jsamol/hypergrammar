@@ -4,6 +4,8 @@ import pl.edu.agh.gg.data.Point;
 import pl.edu.agh.gg.data.RgbColor;
 import pl.edu.agh.gg.ui.graph.Drawable;
 
+import java.awt.image.BufferedImage;
+
 public class Vertex extends Drawable {
 
     private Point geom;
@@ -22,6 +24,11 @@ public class Vertex extends Drawable {
     public Vertex(int x, int y) {
         this.geom = new Point(x, y);
         this.color = new RgbColor(0, 0, 0);
+    }
+
+    public Vertex(int x, int y, BufferedImage image) {
+        this.geom = new Point(x, y);
+        this.color = new RgbColor(image.getRGB(x, y));
     }
 
     public Point getGeom() {
