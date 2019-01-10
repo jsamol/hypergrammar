@@ -1,5 +1,6 @@
 package pl.edu.agh.gg.hypergraph;
 
+import pl.edu.agh.gg.data.Point;
 import pl.edu.agh.gg.ui.graph.Drawable;
 
 import java.util.*;
@@ -82,13 +83,13 @@ public class HyperEdge extends Drawable {
     }
 
     public boolean isEdgeInclude(int x1, int y1) {
-        Boolean v1 = this.vertices.stream().anyMatch( v -> v.getGeom().isEqual(x1 ,y1));
+        Boolean v1 = this.vertices.stream().anyMatch(v -> v.getGeom().isEqual(x1, y1));
         return v1;
     }
 
     public boolean isEdgeBetween(int x1, int x2, int y1, int y2) {
-        Boolean v1 = this.vertices.stream().anyMatch( v -> v.getGeom().isEqual(x1 ,y1));
-        Boolean v2 = this.vertices.stream().anyMatch( v -> v.getGeom().isEqual(x2 ,y2));
+        Boolean v1 = this.vertices.stream().anyMatch(v -> v.getGeom().isEqual(x1, y1));
+        Boolean v2 = this.vertices.stream().anyMatch(v -> v.getGeom().isEqual(x2, y2));
         return v1 && v2;
     }
 
@@ -113,5 +114,19 @@ public class HyperEdge extends Drawable {
         Set<Vertex> commonVertices = new HashSet<>(this.vertices);
         commonVertices.retainAll(other.vertices);
         return commonVertices;
+    }
+
+    public Point getCenter() {
+        for (Vertex v1 : this.vertices) {
+            for (Vertex v2 : this.vertices) {
+                if (v1.getX() != v2.getX() && v1.getY() != v2.getY()) {
+                    return new Point(Math.abs(v1.getX() - v2.getX()) / 2 + Math.min(v1.getX(), v2.getX()),
+                            Math.abs(v1.getY() - v2.getY()) / 2 + Math.min(v1.getY(), v2.getY()));
+                }
+            }
+        }
+
+        System.err.println("cannot calculate center");
+        return null;
     }
 }

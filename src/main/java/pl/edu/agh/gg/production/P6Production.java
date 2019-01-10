@@ -1,9 +1,12 @@
 package pl.edu.agh.gg.production;
 
+import pl.edu.agh.gg.data.Point;
 import pl.edu.agh.gg.hypergraph.HyperEdge;
 import pl.edu.agh.gg.hypergraph.HyperGraph;
 import pl.edu.agh.gg.hypergraph.Vertex;
+import pl.edu.agh.gg.util.EdgeUtil;
 
+import java.util.List;
 import java.util.Set;
 
 import static pl.edu.agh.gg.hypergraph.HyperEdgeType.INTERIOR;
@@ -33,6 +36,32 @@ public class P6Production implements Production {
         if (commonVertices.size() != 1) {
             throw new IllegalStateException("edges should have one common vertex");
         }
+        if (big.getSideLength() - 2 * small.getSideLength() > 1e5) {
+            throw new IllegalStateException("small should be smaller than big");
+        }
+
+        Vertex commonVertex = commonVertices.stream().findAny().get();
+        Point center = small.getCenter();
+
+        long faceEdgesCount = EdgeUtil.findRelatedFaceEdges(graph, big, commonVertex).stream().filter(fe -> {
+            List<Vertex> v = fe.getVertices();
+            Vertex v1 = v.get(0);
+            Vertex v2 = v.get(1);
+            if (v1.getX() != v2.getX()) {
+                return v1.getX() < center.getX() && center.getX() < v2.getX() ||
+                        v2.getX() < center.getX() && center.getX() < v1.getX();
+            }
+            if (v1.getY() != v2.getY()) {
+                return v1.getY() < center.getY() && center.getY() < v2.getY() ||
+                        v2.getY() < center.getY() && center.getY() < v1.getY();
+            }
+            return false;
+        }).count();
+
+        if (faceEdgesCount != 1) {
+            throw new IllegalStateException("edges should be separated by face edge");
+        }
+
 
         big.setCanBreak(true);
     }
