@@ -35,10 +35,16 @@ public class GraphBitmapApproximationDrawer {
 
             } else if (hyperEdge.getVertices().size() == 3) {
                 handle3VerticesGiven(bitmapApproximationRGB, vertexHashSet);
+            } else {
+                handle2VerticesGiven(bitmapApproximationRGB, vertexHashSet);
             }
         }
 
         BitmapApproximationDrawer.saveImage(x1, y1, x2, y2, bitmapApproximationRGB, filename);
+    }
+
+    private static void handle2VerticesGiven(BitmapApproximationRGB bitmapApproximationRGB, HashSet<Vertex> vertexHashSet) {
+        //TODO case dla krawedzi z dwoma wierzchołkami (ukosna, wiec współrzędne z max i min się wyliczy)
     }
 
     private static void handle4VerticesGiven(BitmapApproximationRGB bitmapApproximationRGB, HashSet<Vertex> vertexHashSet) {
