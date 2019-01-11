@@ -11,55 +11,53 @@ import java.util.Set;
 
 public class P3Production implements Production {
     private BufferedImage bitmap;
-    private int x1;
-    private int x2;
-    private int x3;
-    private int y1;
-    private int y2;
-    private int y3;
+    private HyperEdge edge;
 
-    public P3Production(BufferedImage bitmap, int x1, int x2, int x3, int y1, int y2, int y3) {
+    public P3Production(BufferedImage bitmap, HyperEdge edge) {
         this.bitmap = bitmap;
-        this.x1 = x1;
-        this.x2 = x2;
-        this.x3 = x3;
-        this.y1 = y1;
-        this.y2 = y2;
-        this.y3 = y3;
+        this.edge = edge;
     }
 
     @Override
     public void apply(HyperGraph graph) {
-        Set<Vertex> vertices = new HashSet<>(graph.getVertices());
+        Set<Vertex> vertices = new HashSet<>(edge.getVertices());
+
+        Vertex vertex1 = VertexUtil.findMinXMaxY(vertices).orElseThrow(IllegalStateException::new);
+        Vertex vertex2 = VertexUtil.findMaxXMaxY(vertices).orElseThrow(IllegalStateException::new);
+
+        graph.removeEdge(edge);
+        Vertex vertex3 = graph.getConnectingVertex(vertex1, vertex2);
+
+        int x1 = vertex1.getX();
+        int x2 = vertex2.getX();
+        int y1 = vertex1.getY();
+        int y2 = vertex2.getY();
+        int x3 = vertex3.getX();
+        int y3 = vertex3.getY();
+
+        HyperEdgeDirection direction;
+        if (y3 > y2 && y3 < y1) {
+            direction = HyperEdgeDirection.RIGHT;
+        } else if (y3 > y1 && y3 < y2) {
+            direction = HyperEdgeDirection.LEFT;
+        } else if (x3 > x1 && x3 < x2) {
+            direction = HyperEdgeDirection.UP;
+        } else if (x3 < x1 && x3 > x2) {
+            direction = HyperEdgeDirection.DOWN;
+        } else {
+            throw new IllegalStateException("Cannot find direction of F edge");
+        }
 
         HyperEdge f1 = graph.getEdges()
                 .stream()
                 .filter(edge -> edge.getType() == HyperEdgeType.FACE &&
-                        edge.edgeContains(x3, y3) &&
-                        edge.getDir() == HyperEdgeDirection.UP)
-                .findAny().orElseThrow(() -> new IllegalStateException("Cannot find FACE hyper edge with DOWN direction with" +
-                        "x3/y3 coordinates"));
-
-        Vertex vertex1 = VertexUtil.findMinXMaxY(vertices).orElseThrow(IllegalStateException::new);
-        Vertex vertex2 = VertexUtil.findMaxXMaxY(vertices).orElseThrow(IllegalStateException::new);
-        Vertex vertex3 = graph.getVertices()
-                .stream()
-                .filter(vertex -> vertex != vertex1 && vertex != vertex2)
-                .findAny().orElseThrow(() -> new IllegalStateException("kurła"));
-
-        x1 = vertex1.getX();
-        x2 = vertex2.getX();
-        x3 = vertex3.getX();
-        y1 = vertex1.getY();
-        y2 = vertex2.getY();
-        y3 = vertex3.getY();
+                        edge.edgeContains(vertex3.getX(), vertex3.getY()) &&
+                        edge.getDir() == direction)
+                .findAny().orElseThrow(() -> new IllegalStateException("Cannot find FACE hyper edge "));
 
         int newX = (x1 + x2) / 2;
         int newY = (y1 + y2) / 2;
         Vertex newVertex = new Vertex(new Point(newX, newY), new RgbColor(bitmap.getRGB(newX, newY)));
-
-        // remove upper B edge
-        graph.removeEdge(findEdgeBetweenPoints(graph, x1, x2, y1, y2, HyperEdgeType.BOUNDARY));
 
         // add new B edges
         graph.addEdge(new HyperEdge(HyperEdgeType.BOUNDARY, vertex1, newVertex),

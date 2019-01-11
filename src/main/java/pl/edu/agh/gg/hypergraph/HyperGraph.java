@@ -3,6 +3,7 @@ package pl.edu.agh.gg.hypergraph;
 import pl.edu.agh.gg.ui.graph.Drawable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class HyperGraph extends Drawable {
 
@@ -47,4 +48,32 @@ public class HyperGraph extends Drawable {
         this.edges.remove(edge);
     }
 
+    public Vertex getConnectingVertex(Vertex vertex1, Vertex vertex2) {
+        // find all edges that that contain any of input vertices
+        List<HyperEdge> es = edges.stream()
+                .filter(edge -> edge.edgeContains(vertex1.getX(), vertex1.getY()) ||
+                        edge.edgeContains(vertex2.getX(), vertex2.getY()))
+                .collect(Collectors.toList());
+
+        // dirty solution :(
+        for (HyperEdge e1 : es) {
+            for (HyperEdge e2 : es) {
+                if (e1 != e2) {
+                    HashSet<Vertex> vs1 = new HashSet<>(e1.getVertices());
+                    HashSet<Vertex> vs2 = new HashSet<>(e2.getVertices());
+
+                    // intersection of two sets of vertices
+                    vs1.retainAll(vs2);
+
+                    // if common set of vertices results in 1 vertex
+                    if (vs1.size() == 1) {
+                        return new LinkedList<>(vs1).getFirst();
+                    }
+
+                }
+            }
+        }
+
+        return null;
+    }
 }

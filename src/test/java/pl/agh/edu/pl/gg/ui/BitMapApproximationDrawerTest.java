@@ -70,7 +70,7 @@ public class BitMapApproximationDrawerTest {
 
         BitMapApproximationDrawer.drawApproximateBitmap(vertexList, "blueWhite");
         try {
-            BufferedImage image = BitmapUtils.loadBitmapFromResource(ZAD_12_OUT +"/BlueWhite.bmp");
+            BufferedImage image = BitmapUtils.loadBitmapFromResource(ZAD_12_OUT +"/blueWhite.bmp");
             assertEquals(image.getRGB(image.getMinX(), image.getMinY()), new Color(white.getR(), white.getG(), white.getB()).getRGB());
         } catch (IOException e) {
         }
