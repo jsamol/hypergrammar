@@ -43,7 +43,7 @@ public class P5Production implements Production {
             Set<Vertex> commonVertices = e.findCommonVertices(edge);
             if (commonVertices.size() != 1) return false;
             double x = e.getSideLength();
-            if (x - 2 * sideLength > 1e5) return false;
+            if (Math.abs(x - 2 * sideLength) > 1e5) return false;
 
             Vertex commonVertex = commonVertices.stream().findAny().get();
 

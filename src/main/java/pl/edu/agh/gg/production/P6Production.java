@@ -36,7 +36,7 @@ public class P6Production implements Production {
         if (commonVertices.size() != 1) {
             throw new IllegalStateException("edges should have one common vertex");
         }
-        if (big.getSideLength() - 2 * small.getSideLength() > 1e5) {
+        if (Math.abs(big.getSideLength() - 2 * small.getSideLength()) > 1e5) {
             throw new IllegalStateException("small should be smaller than big");
         }
 
