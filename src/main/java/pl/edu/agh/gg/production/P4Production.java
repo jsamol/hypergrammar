@@ -69,6 +69,7 @@ public class P4Production implements Production {
                 .filter(f -> f.isEdgeBetween(x1, x2, y1, y2) && f.getType() == HyperEdgeType.INTERIOR)
                 .findFirst().orElseThrow(IllegalStateException::new);
     }
+
     @Override
     public void apply(HyperGraph graph) {
         if(this.F2Left == null) { setF2Left(graph); }
@@ -101,26 +102,30 @@ public class P4Production implements Production {
         y2 = v5.getY();
         y3 = v8.getY();
 
+        // create new vertex
+        Vertex v9 = new Vertex(x1, y3, bitmap);
+
+        // find I edges
         HyperEdge edgeBetween1And5And8 = findEdgeBetweenPoints(graph, x1, x2, y2, y3);
         HyperEdge edgeBetween2And5And6 = findEdgeBetweenPoints(graph, x1, x3, y2, y3);
         HyperEdge edgeBetween3And7And8 = findEdgeBetweenPoints(graph, x1, x2, y1, y3);
         HyperEdge edgeBetween4And6And7 = findEdgeBetweenPoints(graph, x1, x3, y1, y3);
 
-        Vertex newVertex = new Vertex(new Point(x1, y3));
-//        Vertex newVertex = new Vertex(new Point(x1, y3), new RgbColor(bitmap.getRGB(x1, y3)));
-        Vertex oldVertex = F1Up.getVertices().stream().filter(v -> v.getGeom().isEqual(x1, y1)).findAny().orElse(null);
+        // connect vertex to I edges
+        edgeBetween1And5And8.addVertex(v9);
+        edgeBetween2And5And6.addVertex(v9);
+        edgeBetween3And7And8.addVertex(v9);
+        edgeBetween4And6And7.addVertex(v9);
 
-        HyperEdge F1Down = new HyperEdge(DOWN, newVertex, oldVertex);
-        F1Up.removeVertex(oldVertex);
-        F1Up.addVertex(newVertex);
-        F2Left.addVertex(newVertex);
-        F2Right.addVertex(newVertex);
-        edgeBetween1And5And8.addVertex(newVertex);
-        edgeBetween2And5And6.addVertex(newVertex);
-        edgeBetween3And7And8.addVertex(newVertex);
-        edgeBetween4And6And7.addVertex(newVertex);
-
-        graph.addVertex(newVertex);
+        // add F1 Down
+        HyperEdge F1Down = new HyperEdge(DOWN, v9, v7);
         graph.addEdge(F1Down);
+
+        // connect other F edges to vertex
+        F1Up.removeVertex(v7);
+        F1Up.addVertex(v9);
+        F2Left.addVertex(v9);
+        F2Right.addVertex(v9);
+
     }
 }
