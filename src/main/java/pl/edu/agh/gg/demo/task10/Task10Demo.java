@@ -36,14 +36,11 @@ public class Task10Demo {
 
         applyP2ForAllInteriorExceptTopLeftOne(image, graph);
 
-        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-        drawer.draw();
-
         applyP3ForAllBoundaryEdges(image, graph);
 
-        applyP4ForAllFaceEdges(graph);
-
-        applyP5AndP2ToChosenInteriorEdge(graph);
+//        applyP4ForAllFaceEdges(graph);
+//
+//        applyP5AndP2ToChosenInteriorEdge(graph);
 
         HyperGraphDrawer drawer2 = new HyperGraphDrawer(graph);
         drawer2.draw();
@@ -70,9 +67,14 @@ public class Task10Demo {
 
     private void applyP3ForAllBoundaryEdges(BufferedImage image, HyperGraph graph) {
         edgesOfType(HyperEdgeType.BOUNDARY, graph).forEach(edge -> {
-            System.out.println("Applying P3");
-            P3Production p3Production = new P3Production(image, edge);
-            p3Production.apply(graph);
+            try {
+                P3Production p3Production = new P3Production(image, edge);
+                p3Production.apply(graph);
+            } catch(Throwable e) {
+                e.printStackTrace();
+                System.out.println("Could not apply p3");
+                //it just means that we cannot apply p3 to this production
+            }
         });
     }
 

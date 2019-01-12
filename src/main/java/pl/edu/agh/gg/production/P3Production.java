@@ -14,7 +14,7 @@ public class P3Production implements Production {
     private BufferedImage bitmap;
     private HyperEdge boundaryEdge;
 
-    public P3Production(BufferedImage bitmap, HyperEdge boundaryEdge) {
+    public git stP3Production(BufferedImage bitmap, HyperEdge boundaryEdge) {
         this.bitmap = bitmap;
         this.boundaryEdge = boundaryEdge;
     }
@@ -28,6 +28,7 @@ public class P3Production implements Production {
         Vertex vertex3 = findVertexBetween(graph, vertex1, vertex2);
 
         if (vertex3 == null) {
+            graph.addEdge(boundaryEdge);    //rollback
             throw new IllegalStateException(String.format("Edge not applicable - no vertex between v1 %s and v2 %s",
                     vertex1, vertex2));
         }
