@@ -30,14 +30,14 @@ public class Task10Demo {
 
         applyP2ForAllInteriorEdges(image, graph);
 
-        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-        drawer.draw();
-        
         applyP3ForAllBoundaryEdges(image, graph);
 
         applyP5ForAllInteriorExceptTopLeftOne(graph);
 
         applyP2ForAllInteriorExceptTopLeftOne(image, graph);
+
+        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
+        drawer.draw();
 
         applyP3ForAllBoundaryEdges(image, graph);
 

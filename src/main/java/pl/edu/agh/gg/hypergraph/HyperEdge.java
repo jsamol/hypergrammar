@@ -122,4 +122,11 @@ public class HyperEdge extends Drawable {
         System.err.println("cannot calculate center");
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "HyperEdge{" +
+                "vertices=" + vertices +
+                '}';
+    }
 }

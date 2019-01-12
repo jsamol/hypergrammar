@@ -59,7 +59,6 @@ public class Vertex extends Drawable {
     public String toString() {
         return "Vertex{" +
                 "geom=" + geom +
-                ", color=" + color +
                 '}';
     }
 }
