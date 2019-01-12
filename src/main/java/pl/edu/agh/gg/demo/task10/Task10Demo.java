@@ -30,8 +30,10 @@ public class Task10Demo {
 
         applyP2ForAllInteriorEdges(image, graph);
 
+        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
+        drawer.draw();
         
-//        applyP3ForAllBoundaryEdges(graph);
+        applyP3ForAllBoundaryEdges(image, graph);
 //
 //        applyP5ForAllInteriorExceptTopLeftOne(graph);
 //
@@ -43,8 +45,8 @@ public class Task10Demo {
 //
 //        applyP5AndP2ToChosenInteriorEdge(graph);
 
-        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-        drawer.draw();
+        HyperGraphDrawer drawer2 = new HyperGraphDrawer(graph);
+        drawer2.draw();
     }
 
     private void applyP1(BufferedImage image, HyperGraph graph) {
@@ -66,10 +68,11 @@ public class Task10Demo {
         });
     }
 
-    private void applyP3ForAllBoundaryEdges(HyperGraph graph) {
+    private void applyP3ForAllBoundaryEdges(BufferedImage image, HyperGraph graph) {
         edgesOfType(HyperEdgeType.BOUNDARY, graph).forEach(edge -> {
-            //TODO
-//            P3Production p3Production = new P3Production()
+            System.out.println("Applying P3");
+            P3Production p3Production = new P3Production(image, edge);
+            p3Production.apply(graph);
         });
     }
 
