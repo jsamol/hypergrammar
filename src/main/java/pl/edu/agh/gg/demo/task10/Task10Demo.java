@@ -34,16 +34,16 @@ public class Task10Demo {
         drawer.draw();
         
         applyP3ForAllBoundaryEdges(image, graph);
-//
-//        applyP5ForAllInteriorExceptTopLeftOne(graph);
-//
-//        applyP2ForAllInteriorExceptTopLeftOne(image, graph);
-//
-//        applyP3ForAllBoundaryEdges(graph);
-//
-//        applyP4ForAllFaceEdges(graph);
-//
-//        applyP5AndP2ToChosenInteriorEdge(graph);
+
+        applyP5ForAllInteriorExceptTopLeftOne(graph);
+
+        applyP2ForAllInteriorExceptTopLeftOne(image, graph);
+
+        applyP3ForAllBoundaryEdges(image, graph);
+
+        applyP4ForAllFaceEdges(graph);
+
+        applyP5AndP2ToChosenInteriorEdge(graph);
 
         HyperGraphDrawer drawer2 = new HyperGraphDrawer(graph);
         drawer2.draw();

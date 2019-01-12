@@ -51,8 +51,9 @@ public class HyperGraph extends Drawable {
     public Vertex getConnectingVertex(Vertex vertex1, Vertex vertex2) {
         // find all edges that that contain any of input vertices
         List<HyperEdge> es = edges.stream()
-                .filter(edge -> edge.edgeContains(vertex1.getX(), vertex1.getY()) ||
-                        edge.edgeContains(vertex2.getX(), vertex2.getY()))
+                .filter(edge -> edge.getType() == HyperEdgeType.INTERIOR &&
+                        (edge.edgeContains(vertex1.getX(), vertex1.getY()) ||
+                                edge.edgeContains(vertex2.getX(), vertex2.getY())))
                 .collect(Collectors.toList());
 
         // dirty solution :(
@@ -73,7 +74,6 @@ public class HyperGraph extends Drawable {
                 }
             }
         }
-
         return null;
     }
 }

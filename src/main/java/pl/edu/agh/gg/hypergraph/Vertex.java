@@ -54,4 +54,12 @@ public class Vertex extends Drawable {
     public int getY() {
         return geom.getY();
     }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "geom=" + geom +
+                ", color=" + color +
+                '}';
+    }
 }
