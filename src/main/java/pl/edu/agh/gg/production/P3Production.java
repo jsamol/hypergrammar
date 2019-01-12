@@ -14,7 +14,7 @@ public class P3Production implements Production {
     private BufferedImage bitmap;
     private HyperEdge boundaryEdge;
 
-    public git stP3Production(BufferedImage bitmap, HyperEdge boundaryEdge) {
+    public P3Production(BufferedImage bitmap, HyperEdge boundaryEdge) {
         this.bitmap = bitmap;
         this.boundaryEdge = boundaryEdge;
     }
@@ -65,13 +65,13 @@ public class P3Production implements Production {
         switch (direction) {
             case UP:
             case DOWN:
-                newX = Math.abs(x2 - x1) / 2;
+                newX = Math.abs(x2 - x1) / 2 + Math.min(x1, x2);
                 newY = y1;
                 break;
             case LEFT:
             case RIGHT:
                 newX = x1;
-                newY = Math.abs(y1 - y2) / 2;
+                newY = Math.abs(y1 - y2) / 2 + Math.min(y1, y2);
                 break;
         }
 
@@ -100,7 +100,6 @@ public class P3Production implements Production {
         // add new I edges
         graph.addEdge(new HyperEdge(HyperEdgeType.INTERIOR, newLeftIEdgeVertices),
                 new HyperEdge(HyperEdgeType.INTERIOR, rightIEdgeVertices));
-
     }
 
     private HyperEdge findEdgeBetweenPoints(HyperGraph graph, int x1, int x2, int y1, int y2, HyperEdgeType type) {
@@ -130,7 +129,10 @@ public class P3Production implements Production {
 
                     // if common set of vertices results in 1 vertex
                     if (vs1.size() == 1) {
-                        return new LinkedList<>(vs1).getFirst();
+                        Vertex v = new LinkedList<>(vs1).getFirst();
+                        if (v != vertex1 && v != vertex2) {
+                            return v;
+                        }
                     }
 
                 }

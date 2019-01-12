@@ -70,7 +70,7 @@ public class Task10Demo {
             try {
                 P3Production p3Production = new P3Production(image, edge);
                 p3Production.apply(graph);
-            } catch(Throwable e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
                 System.out.println("Could not apply p3");
                 //it just means that we cannot apply p3 to this production
@@ -81,21 +81,21 @@ public class Task10Demo {
     private void applyP2ForAllInteriorExceptTopLeftOne(BufferedImage image, HyperGraph graph) {
         HyperEdge topLeftOneInterior2 = findTopLeftInteriorEdge(graph);
         edgesOfType(HyperEdgeType.INTERIOR, graph).stream()
-                                                  .filter(edge -> !edge.equals(topLeftOneInterior2))
-                                                  .forEach(edge -> {
-                                                      P2Production p2Production = new P2Production(image, edge);
-                                                      p2Production.apply(graph);
-                                                  });
+                .filter(edge -> !edge.equals(topLeftOneInterior2))
+                .forEach(edge -> {
+                    P2Production p2Production = new P2Production(image, edge);
+                    p2Production.apply(graph);
+                });
     }
 
     private void applyP5ForAllInteriorExceptTopLeftOne(HyperGraph graph) {
         HyperEdge topLeftOneInterior = findTopLeftInteriorEdge(graph);
         edgesOfType(HyperEdgeType.INTERIOR, graph).stream()
-                                                  .filter(edge -> !edge.equals(topLeftOneInterior))
-                                                  .forEach(edge -> {
-                                                      P5Production p5Production = new P5Production(edge);
-                                                      p5Production.apply(graph);
-                                                  });
+                .filter(edge -> !edge.equals(topLeftOneInterior))
+                .forEach(edge -> {
+                    P5Production p5Production = new P5Production(edge);
+                    p5Production.apply(graph);
+                });
     }
 
     private void applyP4ForAllFaceEdges(HyperGraph graph) {
@@ -110,17 +110,17 @@ public class Task10Demo {
 
     private List<HyperEdge> edgesOfType(HyperEdgeType type, HyperGraph graph) {
         return graph.getEdges()
-                    .stream()
-                    .filter(edge -> edge.getType() == type)
-                    .collect(Collectors.toList());
+                .stream()
+                .filter(edge -> edge.getType() == type)
+                .collect(Collectors.toList());
     }
 
     private HyperEdge findTopLeftInteriorEdge(HyperGraph graph) {
         List<HyperEdge> edges = edgesOfType(HyperEdgeType.INTERIOR, graph);
         Vertex topLeftVertex = VertexUtil.findMinXMaxY(graph.getVertices()).orElseThrow(IllegalStateException::new);
         return edges.stream()
-                    .filter(edge -> edge.getVertices().contains(topLeftVertex))
-                    .findFirst()
-                    .orElseThrow(IllegalStateException::new);
+                .filter(edge -> edge.getVertices().contains(topLeftVertex))
+                .findFirst()
+                .orElseThrow(IllegalStateException::new);
     }
 }
