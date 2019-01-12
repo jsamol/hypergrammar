@@ -38,9 +38,9 @@ public class Task10Demo {
 
         applyP3ForAllBoundaryEdges(image, graph);
 
-//        applyP4ForAllFaceEdges(graph);
+        applyP4ForAllFaceEdges(graph);
 //
-//        applyP5AndP2ToChosenInteriorEdge(graph);
+        applyP5AndP2ToChosenInteriorEdge(graph);
 
         HyperGraphDrawer drawer2 = new HyperGraphDrawer(graph);
         drawer2.draw();
@@ -71,7 +71,6 @@ public class Task10Demo {
                 P3Production p3Production = new P3Production(image, edge);
                 p3Production.apply(graph);
             } catch (Throwable e) {
-                e.printStackTrace();
                 System.out.println("Could not apply p3");
                 //it just means that we cannot apply p3 to this production
             }
