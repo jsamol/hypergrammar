@@ -60,6 +60,34 @@ public class BitmapApproximationDrawer {
         }
     }
 
+    public static void updateBitMapColorsForEdges(int x1, int y1, int x2, int y2, RgbColor rgb1, RgbColor rgb2,
+                                                  BitmapApproximationRGB bitmapApproximationRGB) {
+        int[][] approx_R = bitmapApproximationRGB.getApprox_r();
+        int[][] approx_G = bitmapApproximationRGB.getApprox_g();
+        int[][] approx_B = bitmapApproximationRGB.getApprox_b();
+
+        if (x1 == x2) {
+            for(int py = y1 + 1; py < y2; py++) {
+                double y1Factor = (double) (py - y1) / (double) (y2 - y1);
+                double y2Factor = (double) (y2 - py) / (double) (y2 - y1);
+                approx_R[x1][py] += (1 - y1Factor) * rgb1.getR() + (1 - y2Factor) * rgb2.getR();
+                approx_G[x1][py] += (1 - y1Factor) * rgb1.getG() + (1 - y2Factor) * rgb2.getG();
+                approx_B[x1][py] += (1 - y1Factor) * rgb1.getB() + (1 - y2Factor) * rgb2.getB();
+            }
+        }
+
+        if (y1 == y2) {
+            for (int px = x1 + 1; px < x2; px++) {
+                double x1Factor = (double) (px - x1) / (double) (x2 - x1);
+                double x2Factor = (double) (x2 - px) / (double) (x2 - x1);
+                approx_R[px][y1] += (1 - x1Factor) * rgb1.getR() + (1 - x2Factor) * rgb2.getR();
+                approx_G[px][y1] += (1 - x1Factor) * rgb1.getG() + (1 - x2Factor) * rgb2.getG();
+                approx_B[px][y1] += (1 - x1Factor) * rgb1.getB() + (1 - x2Factor) * rgb2.getB();
+            }
+        }
+        return;
+    }
+
     public static void saveImage(int x1, int y1, int x2, int y2, BitmapApproximationRGB bitmapApproximationRGB,
                                  final String name) {
         int[][] approx_r = bitmapApproximationRGB.getApprox_r();
