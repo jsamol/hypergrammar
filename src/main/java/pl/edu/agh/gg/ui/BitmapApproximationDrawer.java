@@ -33,29 +33,26 @@ public class BitmapApproximationDrawer {
         int[][] approx_G = bitmapApproximationRGB.getApprox_g();
         int[][] approx_B = bitmapApproximationRGB.getApprox_b();
 
-        for (int px = x1; px <= x2; px++) {
-            for (int py = y1; py <= y2; py++) {
+        for (int px = x1 + 1; px < x2; px++) {
+            for (int py = y1 + 1; py < y2; py++) {
                 double xFactor = (double) (px - x1) / (double) (x2 - x1);
                 double yFactor = (double) (py - y1) / (double) (y2 - y1);
 
-                if ((px != x2 && py != y2 && px != x1 && py != y1) || (approx_R[px][py] == 0 && approx_G[px][py] == 0 && approx_B[px][py] == 0)) {
+                approx_R[px][py] += rgb1.getR() * (1 - xFactor) * yFactor;
+                approx_G[px][py] += rgb1.getG() * (1 - xFactor) * yFactor;
+                approx_B[px][py] += rgb1.getB() * (1 - xFactor) * yFactor;
 
-                    approx_R[px][py] += rgb1.getR() * (1 - xFactor) * yFactor;
-                    approx_G[px][py] += rgb1.getG() * (1 - xFactor) * yFactor;
-                    approx_B[px][py] += rgb1.getB() * (1 - xFactor) * yFactor;
+                approx_R[px][py] += rgb2.getR() * xFactor * yFactor;
+                approx_G[px][py] += rgb2.getG() * xFactor * yFactor;
+                approx_B[px][py] += rgb2.getB() * xFactor * yFactor;
 
-                    approx_R[px][py] += rgb2.getR() * xFactor * yFactor;
-                    approx_G[px][py] += rgb2.getG() * xFactor * yFactor;
-                    approx_B[px][py] += rgb2.getB() * xFactor * yFactor;
+                approx_R[px][py] += rgb3.getR() * (1 - xFactor) * (1 - yFactor);
+                approx_G[px][py] += rgb3.getG() * (1 - xFactor) * (1 - yFactor);
+                approx_B[px][py] += rgb3.getB() * (1 - xFactor) * (1 - yFactor);
 
-                    approx_R[px][py] += rgb3.getR() * (1 - xFactor) * (1 - yFactor);
-                    approx_G[px][py] += rgb3.getG() * (1 - xFactor) * (1 - yFactor);
-                    approx_B[px][py] += rgb3.getB() * (1 - xFactor) * (1 - yFactor);
-
-                    approx_R[px][py] += rgb4.getR() * xFactor * (1 - yFactor);
-                    approx_G[px][py] += rgb4.getG() * xFactor * (1 - yFactor);
-                    approx_B[px][py] += rgb4.getB() * xFactor * (1 - yFactor);
-                }
+                approx_R[px][py] += rgb4.getR() * xFactor * (1 - yFactor);
+                approx_G[px][py] += rgb4.getG() * xFactor * (1 - yFactor);
+                approx_B[px][py] += rgb4.getB() * xFactor * (1 - yFactor);
             }
         }
     }
