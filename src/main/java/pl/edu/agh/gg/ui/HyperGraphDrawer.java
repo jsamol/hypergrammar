@@ -12,6 +12,7 @@ import pl.edu.agh.gg.ui.graph.Attribute;
 import pl.edu.agh.gg.ui.graph.HtmlClass;
 import pl.edu.agh.gg.ui.graph.StylesheetProvider;
 
+import java.util.IntSummaryStatistics;
 import java.util.function.ToIntFunction;
 
 import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.*;
@@ -113,10 +114,12 @@ public class HyperGraphDrawer {
     }
 
     private double getHyperNodePosition(HyperEdge hyperEdge, ToIntFunction<Vertex> mapPosition) {
-        return hyperEdge.getVertices()
+        IntSummaryStatistics statistics =
+                hyperEdge.getVertices()
                         .stream()
                         .mapToInt(mapPosition)
-                        .average()
-                        .orElse(0.0);
+                        .summaryStatistics();
+
+        return (statistics.getMin() + statistics.getMax()) / 2.0;
     }
 }
