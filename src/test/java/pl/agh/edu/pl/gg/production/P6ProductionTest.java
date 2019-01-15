@@ -104,18 +104,6 @@ public class P6ProductionTest {
     }
 
     @Test
-    public void testHyperEdgesSideLengths() {
-        small.addVertex(new Vertex(100, 100));
-
-        try {
-            p6Production.apply(graph);
-        } catch (Exception e){
-            String expectedMessage = "smaller edge should have bigger side length than big edge";
-            Assert.assertEquals( expectedMessage, e.getMessage() );
-        }
-    }
-
-    @Test
     public void testHyperEdgesMinVertexRequired() {
         small.removeVertex(v06);
         small.removeVertex(v04);
