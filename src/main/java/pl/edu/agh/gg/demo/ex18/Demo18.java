@@ -1,6 +1,5 @@
 package pl.edu.agh.gg.demo.ex18;
 
-import org.junit.Test;
 import pl.edu.agh.gg.data.Point;
 import pl.edu.agh.gg.data.RgbColor;
 import pl.edu.agh.gg.hypergraph.HyperEdge;
@@ -14,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Demo18 {
-    private static final boolean DRAW_GRAPH = false;
+    private static final boolean DRAW_GRAPH = true;
 
     private static RgbColor RED = new RgbColor(255, 0, 0);
     private static RgbColor BLUE = new RgbColor(0, 0, 255);
@@ -49,7 +48,18 @@ public class Demo18 {
     private static Vertex v300400 = createVertex(300, 400);
     private static Vertex v400400 = createVertex(400, 400);
 
-    @Test
+    public static void main(String[] args) {
+        Demo18 demo18 = new Demo18();
+        demo18.createRedGreenBlueHyperGraph();
+        demo18.createBlueRedHyperGraph();
+        demo18.createRedHyperGraph();
+        demo18.createWhiteBlackHyperGraph();
+    }
+
+    private static Vertex createVertex(int x, int y) {
+        return new Vertex(new Point(x, y), DEFAULT_COLOR);
+    }
+
     public void createRedGreenBlueHyperGraph() {
         HyperGraph graphWithout2Vertices = new HyperGraph();
         HyperGraph graphWith2Vertices = new HyperGraph();
@@ -88,7 +98,6 @@ public class Demo18 {
         }
     }
 
-    @Test
     public void createWhiteBlackHyperGraph() {
         HyperGraph graphWithout2Vertices = new HyperGraph();
         HyperGraph graphWith2Vertices = new HyperGraph();
@@ -127,7 +136,6 @@ public class Demo18 {
         }
     }
 
-    @Test
     public void createBlueRedHyperGraph() {
         HyperGraph graphWithout2Vertices = new HyperGraph();
         HyperGraph graphWith2Vertices = new HyperGraph();
@@ -167,7 +175,6 @@ public class Demo18 {
         }
     }
 
-    @Test
     public void createRedHyperGraph() {
         HyperGraph graphWithout2Vertices = new HyperGraph();
         HyperGraph graphWith2Vertices = new HyperGraph();
@@ -326,9 +333,5 @@ public class Demo18 {
     private void addHyperEdge(HyperGraph graph, HyperEdgeType edgeType, List<Vertex> vertices) {
         HyperEdge edge = new HyperEdge(edgeType, vertices);
         graph.addEdge(edge);
-    }
-
-    private static Vertex createVertex(int x, int y) {
-        return new Vertex(new Point(x, y), DEFAULT_COLOR);
     }
 }
