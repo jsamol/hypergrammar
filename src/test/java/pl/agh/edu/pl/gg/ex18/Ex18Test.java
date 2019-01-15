@@ -1,9 +1,7 @@
 package pl.agh.edu.pl.gg.ex18;
 
 import org.junit.Test;
-import pl.edu.agh.gg.data.RgbColor;
 import pl.edu.agh.gg.demo.ex18.Demo18;
-import pl.edu.agh.gg.hypergraph.Vertex;
 
 public class Ex18Test {
 
