@@ -23,9 +23,6 @@ public class P6Production implements Production {
 
     @Override
     public void apply(HyperGraph graph) {
-        if (small.getSideLength() >= big.getSideLength()) {
-            throw new IllegalStateException("smaller edge should have bigger side length than big edge");
-        }
         if (small.getType() != INTERIOR || big.getType() != INTERIOR) {
             throw new IllegalStateException("both edges should have type INTERIOR");
         }
