@@ -66,6 +66,14 @@ public class BitmapApproximationDrawer {
         int[][] approx_G = bitmapApproximationRGB.getApprox_g();
         int[][] approx_B = bitmapApproximationRGB.getApprox_b();
 
+        approx_R[x1][y1] = rgb1.getR();
+        approx_G[x1][y1] = rgb1.getG();
+        approx_B[x1][y1] = rgb1.getB();
+
+        approx_R[x2][y2] = rgb1.getR();
+        approx_G[x2][y2] = rgb1.getG();
+        approx_B[x2][y2] = rgb1.getB();
+
         if (x1 == x2) {
             for(int py = y1 + 1; py < y2; py++) {
                 double y1Factor = (double) (py - y1) / (double) (y2 - y1);

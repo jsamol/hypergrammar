@@ -51,7 +51,8 @@ public class Demo18 {
 
     @Test
     public void createRedGreenBlueHyperGraph() {
-        HyperGraph graph = new HyperGraph();
+        HyperGraph graphWithout2Vertices = new HyperGraph();
+        HyperGraph graphWith2Vertices = new HyperGraph();
         v000000.setColor(RED);
         v100000.setColor(RED);
         v200000.setColor(RED);
@@ -72,19 +73,25 @@ public class Demo18 {
         v200400.setColor(GREEN);
         v300400.setColor(RED);
         v400400.setColor(RED);
-        createGraphWithout2VerticesInteriorEdges(graph);
+        createGraphWithout2VerticesInteriorEdges(graphWithout2Vertices);
+        createGraphWith2VerticesInteriorEdges(graphWith2Vertices);
+
+        GraphBitmapApproximationDrawer.drawGraphBitmap(graphWithout2Vertices, "redGreenBlueGraphApprox_without2Vertices.bmp");
+        GraphBitmapApproximationDrawer.drawGraphBitmap(graphWith2Vertices, "redGreenBlueGraphApprox_with2Vertices.bmp");
 
         if (DRAW_GRAPH) {
-            HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-            drawer.draw();
-        }
+            HyperGraphDrawer without2VerticesDrawer = new HyperGraphDrawer(graphWithout2Vertices);
+            HyperGraphDrawer with2VerticesDrawer = new HyperGraphDrawer(graphWith2Vertices);
 
-        GraphBitmapApproximationDrawer.drawGraphBitmap(graph, "redGreenBlueGraphApprox.bmp");
+            without2VerticesDrawer.draw();
+            with2VerticesDrawer.draw();
+        }
     }
 
     @Test
     public void createWhiteBlackHyperGraph() {
-        HyperGraph graph = new HyperGraph();
+        HyperGraph graphWithout2Vertices = new HyperGraph();
+        HyperGraph graphWith2Vertices = new HyperGraph();
         v000000.setColor(BLACK);
         v100000.setColor(BLACK);
         v200000.setColor(WHITE);
@@ -105,19 +112,25 @@ public class Demo18 {
         v200400.setColor(BLACK);
         v300400.setColor(WHITE);
         v400400.setColor(WHITE);
-        createGraphWithout2VerticesInteriorEdges(graph);
+        createGraphWithout2VerticesInteriorEdges(graphWithout2Vertices);
+        createGraphWith2VerticesInteriorEdges(graphWith2Vertices);
+
+        GraphBitmapApproximationDrawer.drawGraphBitmap(graphWithout2Vertices, "whiteBlackGraphApprox_without2Vertices.bmp");
+        GraphBitmapApproximationDrawer.drawGraphBitmap(graphWith2Vertices, "whiteBlackGraphApprox_with2Vertices.bmp");
 
         if (DRAW_GRAPH) {
-            HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-            drawer.draw();
-        }
+            HyperGraphDrawer without2VerticesDrawer = new HyperGraphDrawer(graphWithout2Vertices);
+            HyperGraphDrawer with2VerticesDrawer = new HyperGraphDrawer(graphWith2Vertices);
 
-        GraphBitmapApproximationDrawer.drawGraphBitmap(graph, "whiteBlackGraphApprox.bmp");
+            without2VerticesDrawer.draw();
+            with2VerticesDrawer.draw();
+        }
     }
 
     @Test
     public void createBlueRedHyperGraph() {
-        HyperGraph graph = new HyperGraph();
+        HyperGraph graphWithout2Vertices = new HyperGraph();
+        HyperGraph graphWith2Vertices = new HyperGraph();
         v000000.setColor(RED);
         v100000.setColor(RED);
         v200000.setColor(RED);
@@ -138,19 +151,26 @@ public class Demo18 {
         v200400.setColor(RED);
         v300400.setColor(RED);
         v400400.setColor(RED);
-        createGraphWithout2VerticesInteriorEdges(graph);
+        createGraphWithout2VerticesInteriorEdges(graphWithout2Vertices);
+        createGraphWith2VerticesInteriorEdges(graphWith2Vertices);
+
+        GraphBitmapApproximationDrawer.drawGraphBitmap(graphWithout2Vertices, "blueRedGraphApprox_without2Vertices.bmp");
+        GraphBitmapApproximationDrawer.drawGraphBitmap(graphWith2Vertices, "blueRedGraphApprox_with2Vertices.bmp");
+
 
         if (DRAW_GRAPH) {
-            HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-            drawer.draw();
-        }
+            HyperGraphDrawer without2VerticesDrawer = new HyperGraphDrawer(graphWithout2Vertices);
+            HyperGraphDrawer with2VerticesDrawer = new HyperGraphDrawer(graphWith2Vertices);
 
-        GraphBitmapApproximationDrawer.drawGraphBitmap(graph, "blueRedGraphApprox.bmp");
+            without2VerticesDrawer.draw();
+            with2VerticesDrawer.draw();
+        }
     }
 
     @Test
     public void createRedHyperGraph() {
-        HyperGraph graph = new HyperGraph();
+        HyperGraph graphWithout2Vertices = new HyperGraph();
+        HyperGraph graphWith2Vertices = new HyperGraph();
         v000000.setColor(RED);
         v100000.setColor(RED);
         v200000.setColor(RED);
@@ -171,14 +191,20 @@ public class Demo18 {
         v200400.setColor(RED);
         v300400.setColor(RED);
         v400400.setColor(RED);
-        createGraphWithout2VerticesInteriorEdges(graph);
+        createGraphWithout2VerticesInteriorEdges(graphWithout2Vertices);
+        createGraphWith2VerticesInteriorEdges(graphWith2Vertices);
+
+        GraphBitmapApproximationDrawer.drawGraphBitmap(graphWithout2Vertices, "redGraphApprox_without2Vertices.bmp");
+        GraphBitmapApproximationDrawer.drawGraphBitmap(graphWith2Vertices, "redGraphApprox_with2Vertices.bmp");
+
 
         if (DRAW_GRAPH) {
-            HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-            drawer.draw();
-        }
+            HyperGraphDrawer without2VerticesDrawer = new HyperGraphDrawer(graphWithout2Vertices);
+            HyperGraphDrawer with2VerticesDrawer = new HyperGraphDrawer(graphWith2Vertices);
 
-        GraphBitmapApproximationDrawer.drawGraphBitmap(graph, "redGraphApprox.bmp");
+            without2VerticesDrawer.draw();
+            with2VerticesDrawer.draw();
+        }
     }
 
     private void createGraphWithout2VerticesInteriorEdges(HyperGraph graph) {
@@ -188,6 +214,64 @@ public class Demo18 {
         addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v200200, v300200, v300300));
         addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v300200, v300300, v400200, v400300));
         addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v000100, v000200, v100100));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v100100, v200100, v200200));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v200100, v300100, v200200, v300200));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v300100, v400100, v300200, v400200));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v000000, v100000, v000100, v100100));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v100000, v200000, v100100, v200100));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v200000, v300000, v200100, v300100));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v300000, v400000, v300100, v400100));
+
+        //horizontally from bottom and from left
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v000000, v100000));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v100000, v200000));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v200000, v300000));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v300000, v400000));
+
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v000100, v100100));
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v100100, v200100));
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v200100, v300100));
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v300100, v400100));
+
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v000200, v200200));
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v200200, v300200));
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v300200, v400200));
+
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v300300, v400300));
+
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v000400, v200400));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v200400, v300400));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v300400, v400400));
+
+        //vertically from bottom and from left
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v000000, v000100));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v000100, v000200));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v000200, v000400));
+
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v100000, v100100));
+
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v200000, v200100));
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v200100, v200200));
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v200200, v200400));
+
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v300000, v300100));
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v300100, v300200));
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v300200, v300300));
+        addHyperEdge(graph, HyperEdgeType.FACE, Arrays.asList(v300300, v300400));
+
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v400000, v400100));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v400100, v400200));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v400200, v400300));
+        addHyperEdge(graph, HyperEdgeType.BOUNDARY, Arrays.asList(v400300, v400400));
+    }
+
+    private void createGraphWith2VerticesInteriorEdges(HyperGraph graph) {
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v000400, v200400, v200200, v000200));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v200400, v300300));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v300300, v300400, v400300, v400400));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v200200, v300300));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v300200, v300300, v400200, v400300));
+        addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v000200, v100100));
         addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v100100, v200100, v200200));
         addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v200100, v300100, v200200, v300200));
         addHyperEdge(graph, HyperEdgeType.INTERIOR, Arrays.asList(v300100, v400100, v300200, v400200));

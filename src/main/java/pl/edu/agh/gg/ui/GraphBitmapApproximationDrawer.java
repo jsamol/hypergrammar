@@ -41,14 +41,12 @@ public class GraphBitmapApproximationDrawer {
             HashSet<Vertex> vertexHashSet = new HashSet<>(hyperEdge.getVertices());
             if (hyperEdge.getVertices().size() == 4) {
                 handle4VerticesGiven(bitmapApproximationRGB, vertexHashSet);
-
             } else if (hyperEdge.getVertices().size() == 3) {
                 handle3VerticesGiven(bitmapApproximationRGB, vertexHashSet);
             } else {
-                handle2VerticesGiven(bitmapApproximationRGB, vertexHashSet);
+                handleLessThen2VerticesGiven(bitmapApproximationRGB, vertexHashSet);
             }
         }
-
         BitmapApproximationDrawer.saveImage(x1, y1, x2, y2, bitmapApproximationRGB, filename);
     }
 
@@ -99,8 +97,40 @@ public class GraphBitmapApproximationDrawer {
                 minXY.get().getColor(), maxXminY.get().getColor(), bitmapApproximationRGB);
     }
 
-    private static void handle2VerticesGiven(BitmapApproximationRGB bitmapApproximationRGB, HashSet<Vertex> vertexHashSet) {
-        //TODO case dla krawedzi z dwoma wierzchołkami (ukosna, wiec współrzędne z max i min się wyliczy)
+    private static void handleLessThen2VerticesGiven(BitmapApproximationRGB bitmapApproximationRGB, HashSet<Vertex> vertexHashSet) {
+        if (vertexHashSet.size() < 2) {
+            return;
+        }
+        if (vertexHashSet.size() == 2 && !isDiagonal(vertexHashSet)) {
+            return;
+        }
+
+        Optional<Vertex> minXY = VertexUtil.findMinXMinY(vertexHashSet);
+        Optional<Vertex> maxXY = VertexUtil.findMaxXMaxY(vertexHashSet);
+        Optional<Vertex> maxXminY = VertexUtil.findMaxXMinY(vertexHashSet);
+        Optional<Vertex> minXmaxY = VertexUtil.findMinXMaxY(vertexHashSet);
+        int minX = Collections.min(VertexUtil.mapToXCord(vertexHashSet));
+        int maxX = Collections.max(VertexUtil.mapToXCord(vertexHashSet));
+        int minY = Collections.min(VertexUtil.mapToYCord(vertexHashSet));
+        int maxY = Collections.max(VertexUtil.mapToYCord(vertexHashSet));
+
+        if (minXY.isPresent() && maxXY.isPresent()) {
+            maxXminY = Optional.of(new Vertex(new Point(maxX, minY)));
+            minXmaxY = Optional.of(new Vertex(new Point(minX, maxY)));
+            evaluateColor(bitmapApproximationRGB, maxXminY, maxX, minY);
+            evaluateColor(bitmapApproximationRGB, minXmaxY, minX, maxY);
+        }
+
+        else if (maxXminY.isPresent() && minXmaxY.isPresent()) {
+            minXY = Optional.of(new Vertex(new Point(minX, minY)));
+            maxXY = Optional.of(new Vertex(new Point(maxX, maxY)));
+            evaluateColor(bitmapApproximationRGB, minXY, minX, minY);
+            evaluateColor(bitmapApproximationRGB, maxXY, maxX, maxY);
+        }
+
+        BitmapApproximationDrawer.updateBitMapColors(minXY.get().getX(), minXY.get().getY(),
+                maxXY.get().getX(), maxXY.get().getY(), minXmaxY.get().getColor(), maxXY.get().getColor(),
+                minXY.get().getColor(), maxXminY.get().getColor(), bitmapApproximationRGB);
     }
 
     private static void handle2VerticesNonInteriorGiven(BitmapApproximationRGB bitmapApproximationRGB, HashSet<Vertex> vertexHashSet) {
@@ -116,6 +146,13 @@ public class GraphBitmapApproximationDrawer {
                 bitmapApproximationRGB.getApprox_r()[x][y],
                 bitmapApproximationRGB.getApprox_g()[x][y],
                 bitmapApproximationRGB.getApprox_b()[x][y]));
+    }
+
+    public static boolean isDiagonal(Set<Vertex> vertices) {
+        List<Integer> xCords = VertexUtil.mapToXCord(vertices).stream().distinct().collect(Collectors.toList());
+        List<Integer> yCords = VertexUtil.mapToYCord(vertices).stream().distinct().collect(Collectors.toList());
+
+        return (xCords.size() == 2 && yCords.size() == 2);
     }
 
     private static class HyperEdgeSizeComparator implements Comparator<HyperEdge> {
