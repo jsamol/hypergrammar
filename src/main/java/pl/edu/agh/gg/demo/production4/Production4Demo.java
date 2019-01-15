@@ -26,7 +26,6 @@ public class Production4Demo {
         HyperGraph graph = new HyperGraph();
 
         BufferedImage image = BitmapUtils.loadBitmapFromResource("production4/bitmap.bmp");
-        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
 
         Production4DemoBuilder builder = new Production4DemoBuilder(graph, image);
 
@@ -34,8 +33,7 @@ public class Production4Demo {
         Production production = new P4Production(image, builder.getF2Left(), builder.getF2Right(), builder.getF1Up());
         production.apply(graph);
 
-        drawer.draw();
-
+        HyperGraphDrawer.draw(graph);
     }
 
 }

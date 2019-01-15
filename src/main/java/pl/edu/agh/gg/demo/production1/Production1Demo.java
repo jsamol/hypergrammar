@@ -22,7 +22,6 @@ public class Production1Demo {
         P1Production production = new P1Production(image);
         production.apply(graph);
 
-        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-        drawer.draw();
+        HyperGraphDrawer.draw(graph);
     }
 }

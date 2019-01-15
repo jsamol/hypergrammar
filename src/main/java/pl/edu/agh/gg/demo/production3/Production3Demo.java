@@ -41,7 +41,6 @@ public class Production3Demo {
         P3Production p3Production = new P3Production(image, boundary);
         p3Production.apply(graph);
 
-        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-        drawer.draw();
+        HyperGraphDrawer.draw(graph);
     }
 }

@@ -21,27 +21,17 @@ public class HyperGraphDrawer {
 
     private static double DEFAULT_VIEW_PERCENT = 1.5;
 
-    private HyperGraph hyperGraph;
-    private SingleGraph graph;
-
-    // percent of the graph that should be visible on start
-    private double viewPercent;
-
-    public HyperGraphDrawer(HyperGraph hyperGraph) {
-        this(hyperGraph, DEFAULT_VIEW_PERCENT);
+    public static void draw(HyperGraph hyperGraph) {
+        draw(hyperGraph, DEFAULT_VIEW_PERCENT);
     }
 
-    public HyperGraphDrawer(HyperGraph hyperGraph, double viewPercent) {
-        this.hyperGraph = hyperGraph;
-        this.graph = new SingleGraph(hyperGraph.id, false, true);
-        this.viewPercent = viewPercent;
-    }
+    public static void draw(HyperGraph hyperGraph, double viewPercent) {
+        SingleGraph graph = new SingleGraph(hyperGraph.id, false, true);
 
-    public void draw() {
         System.setProperty(Attribute.RENDERER, J2DGraphRenderer.class.getName());
 
-        drawVertices();
-        drawHyperEdges();
+        drawVertices(hyperGraph, graph);
+        drawHyperEdges(hyperGraph, graph);
 
         graph.setAttribute(Attribute.STYLESHEET, StylesheetProvider.STYLESHEET);
         Viewer viewer = graph.display(false);
@@ -49,7 +39,7 @@ public class HyperGraphDrawer {
         camera.setViewPercent(viewPercent);
     }
 
-    private void drawVertices() {
+    private static void drawVertices(HyperGraph hyperGraph, SingleGraph graph) {
         hyperGraph.getVertices().forEach(vertex -> {
             Node node = graph.addNode(vertex.id);
             node.addAttribute(Attribute.LABEL, vertex.getGeom() + ", " + vertex.getColor());
@@ -58,7 +48,7 @@ public class HyperGraphDrawer {
         });
     }
 
-    private void drawHyperEdges() {
+    private static void drawHyperEdges(HyperGraph hyperGraph, SingleGraph graph) {
         SpriteManager spriteManager = new SpriteManager(graph);
 
         hyperGraph.getEdges().forEach(hyperEdge -> {
@@ -105,15 +95,15 @@ public class HyperGraphDrawer {
         });
     }
 
-    private double getHyperNodeX(HyperEdge hyperEdge) {
+    private static double getHyperNodeX(HyperEdge hyperEdge) {
         return getHyperNodePosition(hyperEdge, vertex -> vertex.getGeom().getX());
     }
 
-    private double getHyperNodeY(HyperEdge hyperEdge) {
+    private static double getHyperNodeY(HyperEdge hyperEdge) {
         return getHyperNodePosition(hyperEdge, vertex -> vertex.getGeom().getY());
     }
 
-    private double getHyperNodePosition(HyperEdge hyperEdge, ToIntFunction<Vertex> mapPosition) {
+    private static double getHyperNodePosition(HyperEdge hyperEdge, ToIntFunction<Vertex> mapPosition) {
         IntSummaryStatistics statistics =
                 hyperEdge.getVertices()
                         .stream()

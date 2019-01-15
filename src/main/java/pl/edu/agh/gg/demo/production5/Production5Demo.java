@@ -131,7 +131,6 @@ public class Production5Demo {
         Production p5_2 = new P5Production(edge);
         p5_2.apply(graph);
 
-        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-        drawer.draw();
+        HyperGraphDrawer.draw(graph);
     }
 }

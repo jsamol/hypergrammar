@@ -42,8 +42,7 @@ public class Task10Demo {
 //
         applyP5AndP2ToChosenInteriorEdge(graph);
 
-        HyperGraphDrawer drawer2 = new HyperGraphDrawer(graph);
-        drawer2.draw();
+        HyperGraphDrawer.draw(graph);
     }
 
     private void applyP1(BufferedImage image, HyperGraph graph) {
@@ -99,7 +98,7 @@ public class Task10Demo {
 
     private void applyP4ForAllFaceEdges(HyperGraph graph) {
         edgesOfType(HyperEdgeType.FACE, graph).forEach(edge -> {
-            //apply P4 - TODO - it does not look trivial :/
+//            P4Production p4Production = new P4Production();
         });
     }
 

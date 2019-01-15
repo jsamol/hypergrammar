@@ -35,7 +35,6 @@ public class Production2Demo {
         Production production3 = new P2Production(image, edge);
         production3.apply(graph);
 
-        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-        drawer.draw();
+        HyperGraphDrawer.draw(graph);
     }
 }
