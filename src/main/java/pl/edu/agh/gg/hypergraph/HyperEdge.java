@@ -26,12 +26,6 @@ public class HyperEdge extends Drawable {
         this.type = type;
     }
 
-    public HyperEdge(HyperEdgeDirection dir, Vertex vertex) {
-        this.vertices.addAll(Collections.singletonList(vertex));
-        this.type = HyperEdgeType.FACE;
-        this.dir = dir;
-    }
-
     public HyperEdge(HyperEdgeDirection dir, Vertex... vertices) {
         this.vertices.addAll(Arrays.asList(vertices));
         this.type = HyperEdgeType.FACE;
