@@ -5,13 +5,16 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.j2dviewer.J2DGraphRenderer;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
+import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Camera;
 import org.graphstream.ui.view.Viewer;
 import pl.edu.agh.gg.hypergraph.*;
 import pl.edu.agh.gg.ui.graph.Attribute;
 import pl.edu.agh.gg.ui.graph.HtmlClass;
 import pl.edu.agh.gg.ui.graph.StylesheetProvider;
+import pl.edu.agh.gg.util.VertexUtil;
 
+import java.awt.*;
 import java.util.IntSummaryStatistics;
 import java.util.function.ToIntFunction;
 
@@ -35,8 +38,15 @@ public class HyperGraphDrawer {
 
         graph.setAttribute(Attribute.STYLESHEET, StylesheetProvider.STYLESHEET);
         Viewer viewer = graph.display(false);
+
         Camera camera = viewer.getDefaultView().getCamera();
         camera.setViewPercent(viewPercent);
+
+        Vertex maxXmaxY = VertexUtil.findMaxXMaxY(hyperGraph.getVertices()).get();
+        Vertex minXminY = VertexUtil.findMinXMinY(hyperGraph.getVertices()).get();
+        double xCenter = (minXminY.getX() + maxXmaxY.getX()) / 2.0;
+        double yCenter = (minXminY.getY() + maxXmaxY.getY()) / 2.0;
+        camera.setViewCenter(xCenter, yCenter, 0);
     }
 
     private static void drawVertices(HyperGraph hyperGraph, SingleGraph graph) {
