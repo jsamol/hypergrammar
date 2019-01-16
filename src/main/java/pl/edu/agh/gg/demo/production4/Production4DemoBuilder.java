@@ -6,9 +6,7 @@ import pl.edu.agh.gg.hypergraph.Vertex;
 
 import java.awt.image.BufferedImage;
 
-import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.LEFT;
-import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.RIGHT;
-import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.UP;
+import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.*;
 import static pl.edu.agh.gg.hypergraph.HyperEdgeType.INTERIOR;
 
 public class Production4DemoBuilder {
@@ -41,14 +39,14 @@ public class Production4DemoBuilder {
         HyperEdge edgeBetween3And7And8 = new HyperEdge(INTERIOR, v3, v7, v8);
         HyperEdge edgeBetween4And6And7 = new HyperEdge(INTERIOR, v4, v6, v7);
 
-        F2Left = new HyperEdge(LEFT, v8);
-        F2Right = new HyperEdge(RIGHT, v6);
-        F1Up = new HyperEdge(UP, v5, v7);
+//        F2Left = new HyperEdge(LEFT, v8);
+//        F2Right = new HyperEdge(RIGHT, v6);
+//        F1Up = new HyperEdge(UP, v5, v7);
 
-        // TODO: dla produkcji zamienionej:
-        //F2Left = new HyperEdge(DOWN, v5);
-        //F2Right = new HyperEdge(UP, v7);
-        //F1Up = new HyperEdge(LEFT, v8, v6);
+        // Dla produkcji zamienionej:
+        F2Left = new HyperEdge(DOWN, v5);
+        F2Right = new HyperEdge(UP, v7);
+        F1Up = new HyperEdge(LEFT, v8, v6);
 
         graph.addEdge(edgeBetween1And5And8, edgeBetween2And5And6, edgeBetween3And7And8, edgeBetween4And6And7);
         graph.addEdge(F2Left, F2Right, F1Up);

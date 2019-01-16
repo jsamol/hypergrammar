@@ -6,10 +6,11 @@ import pl.edu.agh.gg.hypergraph.*;
 import pl.edu.agh.gg.util.VertexUtil;
 
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
-import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.DOWN;
-import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.UP;
+import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.*;
 
 public class P4Production implements Production {
 
@@ -21,9 +22,18 @@ public class P4Production implements Production {
     private int x3;
     private int y3;
 
-    private HyperEdge F2Left;
-    private HyperEdge F2Right;
-    private HyperEdge F1Up;
+    private HyperEdge F_1;
+    private HyperEdge F_2;
+    private HyperEdge F_3;
+    private HyperEdge F1;
+    private HyperEdge F2_1;
+    private HyperEdge F2_2;
+    private HyperEdgeDirection missingDir;
+    private Set<HyperEdgeDirection> directions = new HashSet<HyperEdgeDirection>();
+    private Set<HyperEdgeDirection> missingDirections = new HashSet<HyperEdgeDirection>();
+
+
+
 
     public P4Production(BufferedImage bitmap, int x1, int x2, int x3, int y1, int y2, int  y3) {
         this.bitmap = bitmap;
@@ -35,32 +45,19 @@ public class P4Production implements Production {
         this.y3 = y3;
     }
 
-    public P4Production(BufferedImage bitmap, HyperEdge F2Left, HyperEdge F2Right, HyperEdge F1Up) {
+    public P4Production(BufferedImage bitmap, HyperEdge F_1, HyperEdge F_2, HyperEdge F_3) {
+        missingDirections.add(LEFT);
+        missingDirections.add(RIGHT);
+        missingDirections.add(UP);
+        missingDirections.add(DOWN);
         this.bitmap = bitmap;
-        this.F2Left = F2Left;
-        this.F2Right = F2Right;
-        this.F1Up = F1Up;
-    }
-
-    private void setF2Left(HyperGraph graph) {
-        this.F2Left = graph.getEdges()
-                .stream()
-                .filter(f -> f.isEdgeInclude(x2, y3) && f.getDir() == HyperEdgeDirection.LEFT)
-                .findAny().orElse(null);
-    }
-
-    private void setF2Right(HyperGraph graph) {
-        this.F2Right = graph.getEdges()
-                .stream()
-                .filter(f -> f.isEdgeInclude(x3, y3) && f.getDir() == HyperEdgeDirection.RIGHT)
-                .findAny().orElse(null);
-    }
-
-    private void setF1Up(HyperGraph graph) {
-        this.F1Up = graph.getEdges()
-                .stream()
-                .filter(f -> f.isEdgeBetween(x1, x1, y1, y2) && f.getDir() == HyperEdgeDirection.UP)
-                .findAny().orElse(null);
+        this.F_1 = F_1;
+        this.F_2 = F_2;
+        this.F_3 = F_3;
+        directions.add(F_1.getDir());
+        directions.add(F_2.getDir());
+        directions.add(F_3.getDir());
+        missingDirections.removeAll(directions);
     }
 
     private HyperEdge findEdgeBetweenPoints(HyperGraph graph, int x1, int x2, int y1, int y2) {
@@ -72,28 +69,60 @@ public class P4Production implements Production {
 
     @Override
     public void apply(HyperGraph graph) {
-        if(this.F2Left == null) { setF2Left(graph); }
-        if(this.F2Right == null) { setF2Right(graph); }
-        if(this.F1Up == null) { setF1Up(graph); }
-
-        if (this.F2Left == null || this.F2Right == null || this.F1Up == null) {
+        if (this.F_1 == null || this.F_2 == null || this.F_3 == null) {
             throw new IllegalStateException("Can't find all needed FACES HyperEdges");
         }
-        if (this.F2Left.getType() != HyperEdgeType.FACE
-                || this.F2Right.getType() != HyperEdgeType.FACE
-                || this.F1Up.getType() != HyperEdgeType.FACE) {
+        if (this.F_1.getType() != HyperEdgeType.FACE
+                || this.F_2.getType() != HyperEdgeType.FACE
+                || this.F_3.getType() != HyperEdgeType.FACE) {
             throw new IllegalStateException("Some HyperEdge is not FACE type");
         }
-        if (this.F2Left.getDir() != HyperEdgeDirection.LEFT
-                || this.F2Right.getDir() != HyperEdgeDirection.RIGHT
-                || this.F1Up.getDir() != HyperEdgeDirection.UP) {
-            throw new IllegalStateException("Some HyperEdge has wrong direction");
+        if (directions.size() != 3) {
+            throw new IllegalStateException("Duplicated HyperEdge directions");
         }
 
-        Vertex v5 = VertexUtil.findMinXMaxY(this.F1Up.getVertices()).orElseThrow(IllegalStateException::new);
-        Vertex v6 = VertexUtil.findMaxXMaxY(this.F2Right.getVertices()).orElseThrow(IllegalStateException::new);
-        Vertex v7 = VertexUtil.findMinXMinY(this.F1Up.getVertices()).orElseThrow(IllegalStateException::new);
-        Vertex v8 = VertexUtil.findMinXMaxY(this.F2Left.getVertices()).orElseThrow(IllegalStateException::new);
+        HyperEdgeDirection missingDirection = missingDirections.stream().findFirst().get();
+        Vertex v5, v6, v7, v8;
+        switch (missingDirection) {
+            case UP:
+                this.F1 = (this.F_1.getDir() == DOWN) ? this.F_1 : ((this.F_2.getDir() == DOWN) ? this.F_2 : this.F_3);
+                this.F2_1 = (this.F_1.getDir() == LEFT) ? this.F_1 : ((this.F_2.getDir() == LEFT) ? this.F_2 : this.F_3);
+                this.F2_2 = (this.F_1.getDir() == RIGHT) ? this.F_1 : ((this.F_2.getDir() == RIGHT) ? this.F_2 : this.F_3);
+                v5 = VertexUtil.findMinXMaxY(this.F1.getVertices()).orElseThrow(IllegalStateException::new);
+                v6 = VertexUtil.findMaxXMaxY(this.F2_2.getVertices()).orElseThrow(IllegalStateException::new);
+                v7 = VertexUtil.findMinXMinY(this.F1.getVertices()).orElseThrow(IllegalStateException::new);
+                v8 = VertexUtil.findMinXMaxY(this.F2_1.getVertices()).orElseThrow(IllegalStateException::new);
+                break;
+            case DOWN:
+                this.F1 = (this.F_1.getDir() == UP) ? this.F_1 : ((this.F_2.getDir() == UP) ? this.F_2 : this.F_3);
+                this.F2_1 = (this.F_1.getDir() == LEFT) ? this.F_1 : ((this.F_2.getDir() == LEFT) ? this.F_2 : this.F_3);
+                this.F2_2 = (this.F_1.getDir() == RIGHT) ? this.F_1 : ((this.F_2.getDir() == RIGHT) ? this.F_2 : this.F_3);
+                v5 = VertexUtil.findMinXMaxY(this.F1.getVertices()).orElseThrow(IllegalStateException::new);
+                v6 = VertexUtil.findMaxXMaxY(this.F2_2.getVertices()).orElseThrow(IllegalStateException::new);
+                v7 = VertexUtil.findMinXMinY(this.F1.getVertices()).orElseThrow(IllegalStateException::new);
+                v8 = VertexUtil.findMinXMaxY(this.F2_1.getVertices()).orElseThrow(IllegalStateException::new);
+                break;
+            case LEFT:
+                this.F1 = (this.F_1.getDir() == RIGHT) ? this.F_1 : ((this.F_2.getDir() == RIGHT) ? this.F_2 : this.F_3);
+                this.F2_1 = (this.F_1.getDir() == UP) ? this.F_1 : ((this.F_2.getDir() == UP) ? this.F_2 : this.F_3);
+                this.F2_2 = (this.F_1.getDir() == DOWN) ? this.F_1 : ((this.F_2.getDir() == DOWN) ? this.F_2 : this.F_3);
+                v5 = VertexUtil.findMinXMaxY(this.F2_1.getVertices()).orElseThrow(IllegalStateException::new);
+                v6 = VertexUtil.findMaxXMinY(this.F1.getVertices()).orElseThrow(IllegalStateException::new);
+                v7 = VertexUtil.findMinXMinY(this.F2_2.getVertices()).orElseThrow(IllegalStateException::new);
+                v8 = VertexUtil.findMinXMinY(this.F1.getVertices()).orElseThrow(IllegalStateException::new);
+                break;
+            case RIGHT:
+                this.F1 = (this.F_1.getDir() == LEFT) ? this.F_1 : ((this.F_2.getDir() == LEFT) ? this.F_2 : this.F_3);
+                this.F2_1 = (this.F_1.getDir() == UP) ? this.F_1 : ((this.F_2.getDir() == UP) ? this.F_2 : this.F_3);
+                this.F2_2 = (this.F_1.getDir() == DOWN) ? this.F_1 : ((this.F_2.getDir() == DOWN) ? this.F_2 : this.F_3);
+                v5 = VertexUtil.findMinXMaxY(this.F2_1.getVertices()).orElseThrow(IllegalStateException::new);
+                v6 = VertexUtil.findMaxXMinY(this.F1.getVertices()).orElseThrow(IllegalStateException::new);
+                v7 = VertexUtil.findMinXMinY(this.F2_2.getVertices()).orElseThrow(IllegalStateException::new);
+                v8 = VertexUtil.findMinXMinY(this.F1.getVertices()).orElseThrow(IllegalStateException::new);
+                break;
+            default:
+                throw new IllegalStateException("Missing direction of new HyperEdge");
+        }
 
         x1 = v5.getX();
         x2 = v8.getX();
@@ -117,15 +146,46 @@ public class P4Production implements Production {
         edgeBetween3And7And8.addVertex(v9);
         edgeBetween4And6And7.addVertex(v9);
 
-        // add F1 Down
-        HyperEdge F1Down = new HyperEdge(DOWN, v9, v7);
-        graph.addEdge(F1Down);
+        // add Add F1_2 HyperEdge
+        HyperEdge F1_2 = new HyperEdge(missingDirection, v9);
+        switch (F1_2.getDir()) {
+            case LEFT:
+                F1_2.addVertex(v8);
+                break;
+            case RIGHT:
+                F1_2.addVertex(v6);
+                break;
+            case UP:
+                F1_2.addVertex(v5);
+                break;
+            case DOWN:
+                F1_2.addVertex(v7);
+                break;
+            default:
+                throw new IllegalStateException("No such direction!");
+        }
+        graph.addEdge(F1_2);
 
         // connect other F edges to vertex
-        F1Up.removeVertex(v7);
-        F1Up.addVertex(v9);
-        F2Left.addVertex(v9);
-        F2Right.addVertex(v9);
+        switch (F1.getDir()) {
+            case LEFT:
+                F1.removeVertex(v6);
+                break;
+            case RIGHT:
+                F1.removeVertex(v8);
+                break;
+            case UP:
+                F1.removeVertex(v7);
+                break;
+            case DOWN:
+                F1.removeVertex(v5);
+                break;
+            default:
+                throw new IllegalStateException("No such direction!");
+        }
+        F1.addVertex(v9);
+        F2_1.addVertex(v9);
+        F2_2.addVertex(v9);
 
     }
 }
