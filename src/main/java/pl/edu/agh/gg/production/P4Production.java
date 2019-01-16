@@ -77,6 +77,13 @@ public class P4Production implements Production {
         if (directions.size() != 3) {
             throw new IllegalStateException("Duplicated HyperEdge directions");
         }
+        Set<Vertex> verticiesInProduction = new HashSet<Vertex>();
+        verticiesInProduction.addAll(this.F_1.getVertices());
+        verticiesInProduction.addAll(this.F_2.getVertices());
+        verticiesInProduction.addAll(this.F_3.getVertices());
+        if ((this.F_1.getVertices().size() + this.F_2.getVertices().size() + this.F_3.getVertices().size()) != (verticiesInProduction.size())) {
+            throw new IllegalStateException("Common Verticies");
+        }
 
         HyperEdgeDirection missingDirection = missingDirections.stream().findFirst().get();
         Vertex v5, v6, v7, v8;
@@ -121,6 +128,12 @@ public class P4Production implements Production {
                 throw new IllegalStateException("Missing direction of new HyperEdge");
         }
 
+        if(this.F1.getVertices().size() != 2 || this.F2_1.getVertices().size() != 1 || this.F2_2.getVertices().size() != 1) {
+            throw new IllegalStateException("Wrong number of verticies for HyperEdge");
+        }
+        if((v8.getY() != v6.getY()) || (v5.getX() != v7.getX())) {
+            throw new IllegalStateException("Wrong points");
+        }
         x1 = v5.getX();
         x2 = v8.getX();
         x3 = v6.getX();
@@ -147,16 +160,16 @@ public class P4Production implements Production {
         HyperEdge F1_2 = new HyperEdge(missingDirection, v9);
         switch (F1_2.getDir()) {
             case LEFT:
-                F1_2.addVertex(v8);
-                break;
-            case RIGHT:
                 F1_2.addVertex(v6);
                 break;
+            case RIGHT:
+                F1_2.addVertex(v8);
+                break;
             case UP:
-                F1_2.addVertex(v5);
+                F1_2.addVertex(v7);
                 break;
             case DOWN:
-                F1_2.addVertex(v7);
+                F1_2.addVertex(v5);
                 break;
             default:
                 throw new IllegalStateException("No such direction!");
@@ -166,16 +179,16 @@ public class P4Production implements Production {
         // connect other F edges to vertex
         switch (F1.getDir()) {
             case LEFT:
-                F1.removeVertex(v6);
-                break;
-            case RIGHT:
                 F1.removeVertex(v8);
                 break;
+            case RIGHT:
+                F1.removeVertex(v6);
+                break;
             case UP:
-                F1.removeVertex(v7);
+                F1.removeVertex(v5);
                 break;
             case DOWN:
-                F1.removeVertex(v5);
+                F1.removeVertex(v7);
                 break;
             default:
                 throw new IllegalStateException("No such direction!");
