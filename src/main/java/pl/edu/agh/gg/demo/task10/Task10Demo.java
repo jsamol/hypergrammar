@@ -12,6 +12,7 @@ import pl.edu.agh.gg.util.VertexUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,7 +44,7 @@ public class Task10Demo {
 
         applyP4ForAllFaceEdges(image, graph);
 
-        applyP5AndP2ToChosenInteriorEdge(graph);
+        applyP5AndP2ToChosenInteriorEdge(image, graph);
 
         HyperGraphDrawer.draw(graph);
     }
@@ -110,8 +111,14 @@ public class Task10Demo {
         });
     }
 
-    private void applyP5AndP2ToChosenInteriorEdge(HyperGraph graph) {
-        //apply P5 and P2 to some interior edge TODO
+    private void applyP5AndP2ToChosenInteriorEdge(BufferedImage image, HyperGraph graph) {
+        HyperEdge edge = findNearestBottomRightInteriorEdgeFromMiddle(graph);
+
+        P5Production p5Production = new P5Production(edge);
+        p5Production.apply(graph);
+
+        P2Production p2Production = new P2Production(image, edge);
+        p2Production.apply(graph);
     }
 
     private List<HyperEdge> edgesOfType(HyperEdgeType type, HyperGraph graph) {
@@ -126,6 +133,30 @@ public class Task10Demo {
         Vertex topLeftVertex = VertexUtil.findMinXMaxY(graph.getVertices()).orElseThrow(IllegalStateException::new);
         return edges.stream()
                 .filter(edge -> edge.getVertices().contains(topLeftVertex))
+                .findFirst()
+                .orElseThrow(IllegalStateException::new);
+    }
+
+    private HyperEdge findNearestBottomRightInteriorEdgeFromMiddle(HyperGraph graph) {
+        List<HyperEdge> edges = edgesOfType(HyperEdgeType.INTERIOR, graph);
+
+        int minX = Collections.min(graph.getVertices().stream().map(Vertex::getX).collect(Collectors.toList()));
+        int maxX = Collections.max(graph.getVertices().stream().map(Vertex::getX).collect(Collectors.toList()));
+        int minY = Collections.min(graph.getVertices().stream().map(Vertex::getY).collect(Collectors.toList()));
+        int maxY = Collections.max(graph.getVertices().stream().map(Vertex::getY).collect(Collectors.toList()));
+
+        int middleX = (maxX - minX) / 2;
+        int middleY = (maxY - minY) / 2;
+
+        List<Vertex> bottomRightVertices = graph
+                .getVertices()
+                .stream()
+                .filter(vertex -> vertex.getX() > middleX && vertex.getY() < middleY)
+                .collect(Collectors.toList());
+
+        Vertex nearestBottomRightVertex = VertexUtil.findMinXMaxY(bottomRightVertices).orElseThrow(IllegalStateException::new);
+        return edges.stream()
+                .filter(edge -> edge.getVertices().contains(nearestBottomRightVertex))
                 .findFirst()
                 .orElseThrow(IllegalStateException::new);
     }
