@@ -5,7 +5,6 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.j2dviewer.J2DGraphRenderer;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
-import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Camera;
 import org.graphstream.ui.view.Viewer;
 import pl.edu.agh.gg.hypergraph.*;
@@ -16,7 +15,11 @@ import pl.edu.agh.gg.util.VertexUtil;
 
 import java.awt.*;
 import java.util.IntSummaryStatistics;
+import java.util.List;
+import java.util.OptionalDouble;
+import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
+import java.util.stream.DoubleStream;
 
 import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.*;
 
@@ -37,7 +40,7 @@ public class HyperGraphDrawer {
     }
 
     public static void draw(HyperGraph hyperGraph, String title, double viewPercent) {
-        SingleGraph graph = new SingleGraph(hyperGraph.id, false, true);
+        SingleGraph graph = new SingleGraph(hyperGraph.getId(), false, true);
 
         System.setProperty(Attribute.RENDERER, J2DGraphRenderer.class.getName());
 
@@ -62,7 +65,7 @@ public class HyperGraphDrawer {
 
     private static void drawVertices(HyperGraph hyperGraph, SingleGraph graph) {
         hyperGraph.getVertices().forEach(vertex -> {
-            Node node = graph.addNode(vertex.id);
+            Node node = graph.addNode(vertex.getId());
             node.addAttribute(Attribute.LABEL, vertex.getGeom() + ", " + vertex.getColor());
             node.addAttribute(Attribute.X, vertex.getGeom().getX());
             node.addAttribute(Attribute.Y, vertex.getGeom().getY());
@@ -72,14 +75,16 @@ public class HyperGraphDrawer {
     private static void drawHyperEdges(HyperGraph hyperGraph, SingleGraph graph) {
         SpriteManager spriteManager = new SpriteManager(graph);
 
+        hyperGraph.getEdges().forEach(HyperGraphDrawer::setHyperNodePositions);
+
         hyperGraph.getEdges().forEach(hyperEdge -> {
-            Node edgeNode = graph.addNode(hyperEdge.id);
+            Node edgeNode = graph.addNode(hyperEdge.getId());
             edgeNode.addAttribute(Attribute.CLASS, HtmlClass.HYPER_EDGE);
             edgeNode.addAttribute(Attribute.LABEL, hyperEdge.getType().label);
 
             if (hyperEdge.getType() == HyperEdgeType.INTERIOR) {
-                Sprite sprite = spriteManager.addSprite("sprite-" + hyperEdge.id);
-                sprite.attachToNode(hyperEdge.id);
+                Sprite sprite = spriteManager.addSprite("sprite-" + hyperEdge.getId());
+                sprite.attachToNode(hyperEdge.getId());
                 sprite.addAttribute(Attribute.CLASS, HtmlClass.HYPER_EDGE);
                 sprite.addAttribute(Attribute.LABEL, "break = " + (hyperEdge.getCanBreak() ? 1 : 0));
             }
@@ -89,39 +94,30 @@ public class HyperGraphDrawer {
                 HyperEdge edge = hyperGraph.getEdges().stream()
                         .filter(e -> e.getVertices().contains(center) && e.getType() == HyperEdgeType.INTERIOR)
                         .findFirst().get();
-                HyperEdgeDirection dir = hyperEdge.getDir();
-                double x = getHyperNodeX(hyperEdge);
-                double y = getHyperNodeY(hyperEdge);
-                double delta = edge.getSideLength() / 3;
 
-                if (dir == UP) {
-                    y += delta;
-                } else if (dir == RIGHT) {
-                    x += delta;
-                } else if (dir == DOWN) {
-                    y -= delta;
-                } else if (dir == LEFT) {
-                    x -= delta;
-                }
+                setFaceEdgeOffset(hyperGraph.getEdges(), hyperEdge);
 
-                edgeNode.addAttribute(Attribute.X, x);
-                edgeNode.addAttribute(Attribute.Y, y);
                 edgeNode.addAttribute(Attribute.LABEL, hyperEdge.getType().label + hyperEdge.getDir().name());
-            } else {
-                edgeNode.addAttribute(Attribute.X, getHyperNodeX(hyperEdge));
-                edgeNode.addAttribute(Attribute.Y, getHyperNodeY(hyperEdge));
             }
 
-            hyperEdge.getVertices().forEach(vertex -> graph.addEdge(vertex.id + "-" + hyperEdge.id, vertex.id, hyperEdge.id));
+            edgeNode.addAttribute(Attribute.X, hyperEdge.getNodeX());
+            edgeNode.addAttribute(Attribute.Y, hyperEdge.getNodeY());
+
+            hyperEdge.getVertices().forEach(vertex -> graph.addEdge(vertex.getId() + "-" + hyperEdge.getId(), vertex.getId(), hyperEdge.getId()));
         });
     }
 
-    private static double getHyperNodeX(HyperEdge hyperEdge) {
-        return getHyperNodePosition(hyperEdge, vertex -> vertex.getGeom().getX());
+    private static void setHyperNodePositions(HyperEdge hyperEdge) {
+        setHyperNodeX(hyperEdge);
+        setHyperNodeY(hyperEdge);
     }
 
-    private static double getHyperNodeY(HyperEdge hyperEdge) {
-        return getHyperNodePosition(hyperEdge, vertex -> vertex.getGeom().getY());
+    private static void setHyperNodeX(HyperEdge hyperEdge) {
+        hyperEdge.setNodeX(getHyperNodePosition(hyperEdge, vertex -> vertex.getGeom().getX()));
+    }
+
+    private static void setHyperNodeY(HyperEdge hyperEdge) {
+        hyperEdge.setNodeY(getHyperNodePosition(hyperEdge, vertex -> vertex.getGeom().getY()));
     }
 
     private static double getHyperNodePosition(HyperEdge hyperEdge, ToIntFunction<Vertex> mapPosition) {
@@ -132,5 +128,33 @@ public class HyperGraphDrawer {
                         .summaryStatistics();
 
         return (statistics.getMin() + statistics.getMax()) / 2.0;
+    }
+
+    private static void setFaceEdgeOffset(List<HyperEdge> hyperEdges, HyperEdge faceEdge) {
+        HyperEdgeDirection dir = faceEdge.getDir();
+
+        double x = faceEdge.getNodeX();
+        double y = faceEdge.getNodeY();
+
+        if (dir == UP || dir == DOWN) {
+            DoubleStream positionStream = hyperEdges.stream()
+                    .filter(hyperEdge ->
+                        Math.abs(hyperEdge.getNodeX() - x) <= 0.5 &&
+                                ((dir == UP && hyperEdge.getNodeY() > y) || (dir == DOWN && hyperEdge.getNodeY() < y))
+                    )
+                    .mapToDouble(hyperEdge -> (hyperEdge.getNodeY() + y) / 2.0);
+
+            OptionalDouble positionOptional = dir == UP ? positionStream.min() : positionStream.max();
+            faceEdge.setNodeY(positionOptional.orElse(y));
+        } else if (dir == LEFT || dir == RIGHT) {
+            DoubleStream positionStream = hyperEdges.stream()
+                    .filter(hyperEdge ->
+                            Math.abs(hyperEdge.getNodeY() - y) <= 0.5 &&
+                                    ((dir == LEFT && hyperEdge.getNodeX() < x) || (dir == RIGHT && hyperEdge.getNodeX() > x))
+                    )
+                    .mapToDouble(hyperEdge -> (hyperEdge.getNodeX() + x) / 2.0);
+            OptionalDouble positionOptional = dir == LEFT ? positionStream.max() : positionStream.min();
+            faceEdge.setNodeX(positionOptional.orElse(x));
+        }
     }
 }
