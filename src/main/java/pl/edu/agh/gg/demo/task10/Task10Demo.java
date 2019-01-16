@@ -119,6 +119,11 @@ public class Task10Demo {
 
         P2Production p2Production = new P2Production(image, edge);
         p2Production.apply(graph);
+
+        edge = findNearestBottomRightInteriorEdgeFromMiddle(graph);
+
+        p5Production = new P5Production(edge);
+        p5Production.apply(graph);
     }
 
     private List<HyperEdge> edgesOfType(HyperEdgeType type, HyperGraph graph) {
