@@ -92,7 +92,7 @@ public class HyperGraphDrawer {
                 HyperEdgeDirection dir = hyperEdge.getDir();
                 double x = getHyperNodeX(hyperEdge);
                 double y = getHyperNodeY(hyperEdge);
-                double delta = edge.getSideLength() / 2.5;
+                double delta = edge.getSideLength() / 3;
 
                 if (dir == UP) {
                     y += delta;
@@ -110,9 +110,6 @@ public class HyperGraphDrawer {
             } else {
                 edgeNode.addAttribute(Attribute.X, getHyperNodeX(hyperEdge));
                 edgeNode.addAttribute(Attribute.Y, getHyperNodeY(hyperEdge));
-                if (hyperEdge.getDir() != null) {
-                    edgeNode.addAttribute(Attribute.LABEL, hyperEdge.getType().label + hyperEdge.getDir().name());
-                }
             }
 
             hyperEdge.getVertices().forEach(vertex -> graph.addEdge(vertex.id + "-" + hyperEdge.id, vertex.id, hyperEdge.id));

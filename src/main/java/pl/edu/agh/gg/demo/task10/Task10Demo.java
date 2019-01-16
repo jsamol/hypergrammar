@@ -12,7 +12,6 @@ import pl.edu.agh.gg.util.VertexUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,11 +43,9 @@ public class Task10Demo {
 
         applyP4ForAllFaceEdges(image, graph);
 
-        HyperGraphDrawer.draw(graph, "applyP4ForAllFaceEdges");
-
         applyP5AndP2ToChosenInteriorEdge(graph);
 
-//        HyperGraphDrawer.draw(graph, "applyP5AndP2ToChosenInteriorEdge");
+        HyperGraphDrawer.draw(graph);
     }
 
     private void applyP1(BufferedImage image, HyperGraph graph) {
