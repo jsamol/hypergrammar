@@ -1,13 +1,10 @@
 package pl.edu.agh.gg.production;
 
-import pl.edu.agh.gg.data.Point;
-import pl.edu.agh.gg.data.RgbColor;
 import pl.edu.agh.gg.hypergraph.*;
 import pl.edu.agh.gg.util.VertexUtil;
 
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import static pl.edu.agh.gg.hypergraph.HyperEdgeDirection.*;
@@ -45,15 +42,15 @@ public class P4Production implements Production {
         this.y3 = y3;
     }
 
-    public P4Production(BufferedImage bitmap, HyperEdge F_1, HyperEdge F_2, HyperEdge F_3) {
+    public P4Production(BufferedImage bitmap, HyperEdge... hyperEdges) {
         missingDirections.add(LEFT);
         missingDirections.add(RIGHT);
         missingDirections.add(UP);
         missingDirections.add(DOWN);
         this.bitmap = bitmap;
-        this.F_1 = F_1;
-        this.F_2 = F_2;
-        this.F_3 = F_3;
+        this.F_1 = hyperEdges[0];
+        this.F_2 = hyperEdges[1];
+        this.F_3 = hyperEdges[2];
         directions.add(F_1.getDir());
         directions.add(F_2.getDir());
         directions.add(F_3.getDir());

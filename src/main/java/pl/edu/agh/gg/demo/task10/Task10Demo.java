@@ -1,5 +1,6 @@
 package pl.edu.agh.gg.demo.task10;
 
+import com.google.common.collect.Sets;
 import pl.edu.agh.gg.hypergraph.HyperEdge;
 import pl.edu.agh.gg.hypergraph.HyperEdgeType;
 import pl.edu.agh.gg.hypergraph.HyperGraph;
@@ -11,7 +12,10 @@ import pl.edu.agh.gg.util.VertexUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Task10Demo {
@@ -38,11 +42,13 @@ public class Task10Demo {
 
         applyP3ForAllBoundaryEdges(image, graph);
 
-        applyP4ForAllFaceEdges(graph);
-//
+        applyP4ForAllFaceEdges(image, graph);
+
+        HyperGraphDrawer.draw(graph, "applyP4ForAllFaceEdges");
+
         applyP5AndP2ToChosenInteriorEdge(graph);
 
-        HyperGraphDrawer.draw(graph);
+//        HyperGraphDrawer.draw(graph, "applyP5AndP2ToChosenInteriorEdge");
     }
 
     private void applyP1(BufferedImage image, HyperGraph graph) {
@@ -96,9 +102,14 @@ public class Task10Demo {
                 });
     }
 
-    private void applyP4ForAllFaceEdges(HyperGraph graph) {
-        edgesOfType(HyperEdgeType.FACE, graph).forEach(edge -> {
-//            P4Production p4Production = new P4Production();
+    private void applyP4ForAllFaceEdges(BufferedImage image, HyperGraph graph) {
+        getCombinationOfHyperEdges(edgesOfType(HyperEdgeType.FACE, graph), 3).forEach(combination -> {
+            try {
+                P4Production p4Production = new P4Production(image, combination.toArray(new HyperEdge[0]));
+                p4Production.apply(graph);
+            } catch (Throwable e) {
+                System.out.println("Could not apply p4");
+            }
         });
     }
 
@@ -120,5 +131,12 @@ public class Task10Demo {
                 .filter(edge -> edge.getVertices().contains(topLeftVertex))
                 .findFirst()
                 .orElseThrow(IllegalStateException::new);
+    }
+
+    private Set<Set<HyperEdge>> getCombinationOfHyperEdges(List<HyperEdge> hyperEdges, int combinationLength) {
+        return Sets.powerSet(new HashSet<>(hyperEdges))
+                .stream()
+                .filter(set -> set.size() == combinationLength)
+                .collect(Collectors.toSet());
     }
 }
