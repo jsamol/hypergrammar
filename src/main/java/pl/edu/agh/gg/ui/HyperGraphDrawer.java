@@ -25,10 +25,18 @@ public class HyperGraphDrawer {
     private static double DEFAULT_VIEW_PERCENT = 1.5;
 
     public static void draw(HyperGraph hyperGraph) {
-        draw(hyperGraph, DEFAULT_VIEW_PERCENT);
+        draw(hyperGraph, "", DEFAULT_VIEW_PERCENT);
+    }
+
+    public static void draw(HyperGraph hyperGraph, String title) {
+        draw(hyperGraph, title, DEFAULT_VIEW_PERCENT);
     }
 
     public static void draw(HyperGraph hyperGraph, double viewPercent) {
+        draw(hyperGraph, "", viewPercent);
+    }
+
+    public static void draw(HyperGraph hyperGraph, String title, double viewPercent) {
         SingleGraph graph = new SingleGraph(hyperGraph.id, false, true);
 
         System.setProperty(Attribute.RENDERER, J2DGraphRenderer.class.getName());
@@ -47,6 +55,9 @@ public class HyperGraphDrawer {
         double xCenter = (minXminY.getX() + maxXmaxY.getX()) / 2.0;
         double yCenter = (minXminY.getY() + maxXmaxY.getY()) / 2.0;
         camera.setViewCenter(xCenter, yCenter, 0);
+
+        Label titleLabel = new Label(title);
+        viewer.getDefaultView().add(titleLabel);
     }
 
     private static void drawVertices(HyperGraph hyperGraph, SingleGraph graph) {
@@ -99,6 +110,9 @@ public class HyperGraphDrawer {
             } else {
                 edgeNode.addAttribute(Attribute.X, getHyperNodeX(hyperEdge));
                 edgeNode.addAttribute(Attribute.Y, getHyperNodeY(hyperEdge));
+                if (hyperEdge.getDir() != null) {
+                    edgeNode.addAttribute(Attribute.LABEL, hyperEdge.getType().label + hyperEdge.getDir().name());
+                }
             }
 
             hyperEdge.getVertices().forEach(vertex -> graph.addEdge(vertex.id + "-" + hyperEdge.id, vertex.id, hyperEdge.id));
