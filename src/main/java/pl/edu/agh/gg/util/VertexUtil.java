@@ -62,7 +62,7 @@ public class VertexUtil {
         return findWithXAndY(vertices, maxX, minY);
     }
 
-    public static Optional<Vertex> findWithXAndY(Set<Vertex> vertices, int x, int y) {
+    private static Optional<Vertex> findWithXAndY(Set<Vertex> vertices, int x, int y) {
         return vertices.stream()
                        .filter(vertex -> vertex.getX() == x)
                        .filter(vertex -> vertex.getY() == y)

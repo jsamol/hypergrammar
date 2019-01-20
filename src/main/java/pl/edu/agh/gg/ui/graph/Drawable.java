@@ -10,7 +10,30 @@ public abstract class Drawable {
     private static String HYPER_EDGE_ID_PREFIX = "hyperEdge";
     private static String VERTEX_ID_PREFIX = "vertex";
 
-    public String id = getIdPrefix() + String.valueOf(hashCode());
+    private String id = getIdPrefix() + hashCode();
+
+    private double nodeX;
+    private double nodeY;
+
+    public String getId() {
+        return id;
+    }
+
+    public double getNodeX() {
+        return nodeX;
+    }
+
+    public void setNodeX(double nodeX) {
+        this.nodeX = nodeX;
+    }
+
+    public double getNodeY() {
+        return nodeY;
+    }
+
+    public void setNodeY(double nodeY) {
+        this.nodeY = nodeY;
+    }
 
     private String getIdPrefix() {
         String idPrefix = "";

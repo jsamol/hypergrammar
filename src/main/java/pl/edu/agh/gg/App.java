@@ -30,8 +30,6 @@ public class App {
         graph.addEdge(new HyperEdge(HyperEdgeType.BOUNDARY, v2, v4));
         graph.addEdge(new HyperEdge(HyperEdgeType.BOUNDARY, v3, v4));
 
-        HyperGraphDrawer drawer = new HyperGraphDrawer(graph);
-        drawer.draw();
-
+        HyperGraphDrawer.draw(graph);
     }
 }

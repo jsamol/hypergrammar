@@ -124,14 +124,19 @@ public class P3ProductionTest {
                 .collect(Collectors.toSet());
         borderEdges.forEach(edge -> Assert.assertEquals(2, edge.getVertices().size()));
 
+        borderEdges.forEach(edge -> {
+            Vertex vertex1 = VertexUtil.findMinXMaxY(graph.getVertices()).orElseThrow(IllegalStateException::new);
+            Vertex vertex2 = VertexUtil.findMaxXMaxY(graph.getVertices()).orElseThrow(IllegalStateException::new);
+            Vertex vertex3 = null;
 
-        Vertex vertex1 = VertexUtil.findMinXMaxY(graph.getVertices()).orElseThrow(IllegalStateException::new);
-        Vertex vertex2 = VertexUtil.findMaxXMaxY(graph.getVertices()).orElseThrow(IllegalStateException::new);
-        Vertex vertex3 = VertexUtil.findWithXAndY(graph.getVertices(),(vertex1.getX() + vertex2.getX()) / 2,(vertex1.getY() + vertex2.getY()) / 2).orElseThrow(IllegalStateException::new);
-
-        assertThereIsEdgeBetween(vertex1, vertex3, borderEdges);
-        assertThereIsEdgeBetween(vertex2, vertex3, borderEdges);
-
+            for (Vertex vertex : edge.getVertices()) {
+                if (vertex.getX() == (vertex1.getX() + vertex2.getX()) / 2 && vertex.getY() == (vertex1.getY() + vertex2.getY()) / 2) {
+                    vertex3 = vertex;
+                }
+            }
+            assertThereIsEdgeBetween(vertex1, vertex3, borderEdges);
+            assertThereIsEdgeBetween(vertex2, vertex3, borderEdges);
+        });
     }
 
     private void assertThereIsEdgeBetween(Vertex vertex1, Vertex vertex2, Set<HyperEdge> edges) {
